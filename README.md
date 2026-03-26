@@ -13,10 +13,10 @@ The coding bar for SE is **not LeetCode** — it's practical scripting: parsing 
 | # | Folder | Problem | Key Concepts |
 |---|--------|---------|--------------|
 | 1 | `log_deny_count/` | Parse firewall logs, count DENY entries per source IP, return the top N offenders | `Counter`, `.get()`, `lambda`, `sorted()`, data structures |
-| 2 | `regex_log_parser/` | Parse Apache access logs with regex, extract failed logins by IP, directory traversal paths, and non-browser user agents | `re.search()`, capture groups `()`, lazy `.*?` vs greedy `.*`, `set` for unique values |
-| 2b | `ssh_log_parser/` | Parse SSH auth logs to identify brute-force attackers, targeted usernames, and invalid user attempts across two different log formats | Non-capturing `(?:)`, optional groups `()?`, character classes `[\d\.]`, variable init outside loops |
-| 3 | *coming soon* | Port scanner | `socket`, error handling, command-line args |
-| 4 | *coming soon* | Caesar cipher | String manipulation, `ord()`/`chr()`, modular arithmetic |
+| 2 | `regex_apache_logs/` | Parse Apache access logs with regex, extract failed logins by IP, directory traversal paths, and non-browser user agents | `re.search()`, capture groups `()`, lazy `.*?` vs greedy `.*`, `set` for unique values |
+| 2b | `regex_ssh_auth_log/` | Parse SSH auth logs to identify brute-force attackers, targeted usernames, and invalid user attempts across two different log formats | Non-capturing `(?:)`, optional groups `()?`, character classes `[\d\.]`, variable init outside loops |
+| 3 | `port_scanner/` | Port scanner | `socket`, error handling, command-line args |
+| 4 | `caesar_cipher/` | Caesar cipher | String manipulation, `ord()`/`chr()`, modular arithmetic |
 | 5 | *coming soon* | JSON auth log analyzer | `json`, file I/O, time-window analysis |
 | 6 | *coming soon* | Network traffic analyzer | CSV parsing, data aggregation, anomaly detection |
 
