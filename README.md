@@ -1,6 +1,6 @@
 # Security Engineer - Coding Prep
 
-Practice problems for the **SE-level coding**.
+Practice problems for **SE-level coding**.
 
 ## What This Repo Is
 
