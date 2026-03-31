@@ -6,7 +6,6 @@
 ![Threat Modeling](https://img.shields.io/badge/Topic-Threat%20Modeling%20%7C%20STRIDE-orange)
 ![MITRE ATT&CK](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-CC0000)
 ![Python](https://img.shields.io/badge/Code%20Review-Python-3776AB?logo=python&logoColor=white)
-![Interview Prep](https://img.shields.io/badge/Purpose-SE%20Interview%20Prep-blue)
 
 > A comprehensive reference guide for Security Engineer interviews at top tech companies. Covers web application vulnerabilities, OWASP Top 10 (2025), cryptography fundamentals, secure code review patterns, and common interview questions with concise recall answers.
 
