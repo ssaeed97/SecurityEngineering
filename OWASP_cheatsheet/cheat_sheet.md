@@ -83,7 +83,6 @@ Concise recall answers for commonly asked security engineer interview questions.
 | **What happens when you type a URL?** | DNS resolves the domain, TCP establishes the connection, TLS encrypts it, HTTP sends the request, the server processes and responds with security headers, and the browser renders while enforcing CSP and SRI — every layer has security implications. |
 | **Prevent brute force attacks** | Layer rate limiting per user and per IP, account lockout with CAPTCHA, MFA, generic error messages, breach-list password checking, and anomaly alerting — credential stuffing and password spraying need different defenses than simple brute force. |
 | **Explain SSRF** | SSRF turns your server into a proxy for the attacker to reach internal resources — devastating in cloud because the metadata endpoint hands out IAM credentials. Fix by blocking internal IPs, enforcing IMDSv2, and restricting network access. |
-| **Critical vuln before launch** | Quantify the risk with data, explore quick mitigations like WAF rules or feature flags that don't delay launch, present stakeholders with clear options and trade-offs, document the decision with sign-off, and schedule the full fix regardless. |
 | **Explain threat modeling (STRIDE)** | STRIDE maps threats to security properties — Spoofing/authentication, Tampering/integrity, Repudiation/accountability, Information Disclosure/confidentiality, DoS/availability, Elevation of Privilege/authorization. Apply systematically at every trust boundary. |
 | **How does MITM work?** | Attackers intercept communication via ARP spoofing, DNS poisoning, rogue WiFi, or fraudulent certificates — prevent with TLS everywhere, HSTS to block SSL stripping, certificate pinning, and DNSSEC. |
 | **What is certificate pinning?** | Hardcodes which specific certificate or public key your app trusts, so even a compromised CA can't issue a fake cert your app accepts — use for mobile apps and service-to-service, not general websites due to operational risk. |
@@ -104,7 +103,7 @@ Concise recall answers for commonly asked security engineer interview questions.
 | **Hashing (Data Integrity)** | SHA-256, SHA-512. One-way, fast. Used for file checksums, digital signatures, data verification. |
 | **Hashing (Passwords)** | bcrypt, scrypt, Argon2. One-way, deliberately slow to resist brute force. Never use SHA-256 or MD5 for passwords. |
 | **Deprecated / Broken** | MD5, SHA-1 (collision attacks practical), DES, 3DES, RC4, TLS 1.0/1.1. |
-| **Block Cipher Modes** | ECB → never use (patterns leak through). CBC → acceptable. GCM → preferred (encrypts + authenticates in one operation). |
+| **Block Cipher Modes** | ECB (Electronic Code Book) → never use (patterns leak through). CBC (Cipher Block Chaining) → acceptable. GCM (Galois/Counter Mode) → preferred (encrypts + authenticates in one operation). |
 | **Data at Rest** | AES-256-GCM for retrievable data. bcrypt/Argon2 for passwords. Never ECB, never MD5. |
 | **Data in Transit** | TLS 1.2 minimum, TLS 1.3 preferred. Disable TLS 1.0/1.1. |
 | **Forward Secrecy** | New ephemeral Diffie-Hellman keys per session, discarded after use. If server's private key leaks later, past sessions stay safe. Required in TLS 1.3, optional in TLS 1.2. |
