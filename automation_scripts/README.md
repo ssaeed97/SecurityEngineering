@@ -1,5 +1,11 @@
 # Security Engineer - Coding Prep
 
+![Python](https://img.shields.io/badge/Language-Python-3776AB?logo=python&logoColor=white)
+![Log Analysis](https://img.shields.io/badge/Security-Log%20Analysis-red)
+![Regex](https://img.shields.io/badge/Tool-Regex-blue)
+![Networking](https://img.shields.io/badge/Tool-Socket%20%7C%20Port%20Scanning-2496ED)
+![Cryptography](https://img.shields.io/badge/Topic-Cryptography-7B42BC)
+
 Practice problems for **SE-level coding**.
 
 ## What This Repo Is

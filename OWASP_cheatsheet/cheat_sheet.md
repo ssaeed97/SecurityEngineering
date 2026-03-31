@@ -1,5 +1,12 @@
 # Security Engineer Interview Prep — Application Security Reference Guide
 
+![OWASP](https://img.shields.io/badge/Reference-OWASP%20Top%2010%202025-000000?logo=owasp&logoColor=white)
+![AppSec](https://img.shields.io/badge/Focus-Application%20Security-red)
+![Cryptography](https://img.shields.io/badge/Topic-Cryptography%20%7C%20TLS-7B42BC)
+![Threat Modeling](https://img.shields.io/badge/Topic-Threat%20Modeling%20%7C%20STRIDE-orange)
+![MITRE ATT&CK](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-CC0000)
+![Python](https://img.shields.io/badge/Code%20Review-Python-3776AB?logo=python&logoColor=white)
+
 > A comprehensive reference guide for Security Engineer interviews at top tech companies. Covers web application vulnerabilities, OWASP Top 10 (2025), cryptography fundamentals, secure code review patterns, and common interview questions with concise recall answers.
 
 ---
