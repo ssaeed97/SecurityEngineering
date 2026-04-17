@@ -1,6 +1,5 @@
 """
 FIREWALL LOG PARSER — Top Denied IPs
-Google SE Interview Practice Problem
 
 =====================================================================
 REFERENCE NOTES — Data Structures, Counter, Sorting

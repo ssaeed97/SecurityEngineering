@@ -201,7 +201,7 @@ def detect_port_scanning(log_lines, threshold=3):
 
 
 if __name__ == "__main__":
-    with open("connections.log", "r") as f:
+    with open("connections.txt", "r") as f:
         logs = f.read().splitlines()
 
     flagged = detect_port_scanning(logs)

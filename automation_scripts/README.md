@@ -10,7 +10,7 @@ Practice problems for **SE-level coding**.
 
 ## What This Repo Is
 
-This is my hands-on coding prep for day-today security engineer tasks. Each folder contains a security-themed Python problem, the solution, and reference notes on the concepts used.
+This is my hands-on coding prep for day-today security engineering tasks. Each folder contains a security-themed Python problem, the solution, and reference notes on the concepts used.
 
 The coding bar for SE is **not LeetCode** — it's practical scripting: parsing logs, analyzing data, automating security tasks. These exercises target exactly that.
 

@@ -1,6 +1,5 @@
 """
 CAESAR CIPHER — Encrypt / Decrypt Tool
-Security Engineer Interview Practice Problem #4
 
 =====================================================================
 REFERENCE NOTES — ord/chr, ASCII, Modular Arithmetic, String Methods

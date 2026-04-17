@@ -12,3 +12,5 @@ Hands-on security engineering practice - scripting, tooling, and reference mater
 |--------|-------------|
 | `automation_scripts/` | Python scripting problems for SE-level coding prep: log parsing, port scanning, ciphers, and more |
 | `OWASP_cheatsheet/` | OWASP reference material and cheat sheets |
+| `STRIDE_cheatsheet/` | STRIDE threat modeling quick reference with differentiation guide, methodology, and worked scenarios |
+| `Scripting_cheatsheet/` | Python scripting patterns and quick reference for security engineering coding problems |

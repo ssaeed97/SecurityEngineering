@@ -1,0 +1,4 @@
+security is important for every application
+every application should implement security controls
+security controls should be tested regularly
+regularly testing security is a best practice

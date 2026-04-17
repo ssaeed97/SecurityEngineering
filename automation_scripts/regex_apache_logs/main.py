@@ -1,6 +1,5 @@
 """
 REGEX LOG PARSER — Apache Access Log Analyzer
-Security Engineer Interview Practice Problem #2
 
 =====================================================================
 REFERENCE NOTES — Regex Patterns, Skipping, Capture Groups

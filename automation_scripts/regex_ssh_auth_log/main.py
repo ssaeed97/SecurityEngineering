@@ -1,6 +1,5 @@
 """
 SSH AUTH LOG PARSER — Brute Force Attack Analyzer
-Security Engineer Interview Practice Problem #2b
 
 =====================================================================
 REFERENCE NOTES — Non-Capturing Groups, Variable Init, Invalid Users
