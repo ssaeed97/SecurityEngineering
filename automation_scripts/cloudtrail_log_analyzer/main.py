@@ -1,8 +1,8 @@
 """
-CLOUDTRAIL LOG ANALYZER — AWS API Call Security Monitor
+CLOUDTRAIL LOG ANALYZER - AWS API Call Security Monitor
 
 =====================================================================
-REFERENCE NOTES — Tiered Detection, JSON Parsing, AWS Attack Patterns
+REFERENCE NOTES - Tiered Detection, JSON Parsing, AWS Attack Patterns
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -16,7 +16,7 @@ WHY THIS MATTERS FOR SE WORK:
     GuardDuty custom detections, and incident response runbooks
 
 
-AWS ACCOUNT COMPROMISE — THE ATTACKER PLAYBOOK:
+AWS ACCOUNT COMPROMISE - THE ATTACKER PLAYBOOK:
 --------------------------------------------------
   1. DISCOVERY    → DescribeInstances, ListBuckets, GetCallerIdentity
   2. CRYPTOMINING → RunInstances with GPU types (p3, p4, g4, g5)
@@ -30,14 +30,14 @@ AWS ACCOUNT COMPROMISE — THE ATTACKER PLAYBOOK:
 
 TIERED DETECTION STRATEGY:
 -----------------------------
-  Tier 1 — ALWAYS SUSPICIOUS:
+  Tier 1 - ALWAYS SUSPICIOUS:
     Certain API calls are almost never made in normal operations.
     Any occurrence is worth alerting on immediately.
     Examples: StopLogging, DeleteTrail, CreateAccessKey
 
     Implementation: a set of event names → O(1) membership check
 
-  Tier 2 — SUSPICIOUS DEPENDING ON PARAMETERS:
+  Tier 2 - SUSPICIOUS DEPENDING ON PARAMETERS:
     Normal API calls that become dangerous with certain inputs.
     Examples:
       RunInstances with 10x GPU instances → cryptomining
@@ -46,7 +46,7 @@ TIERED DETECTION STRATEGY:
 
     Implementation: if/elif conditions checking specific parameter values
 
-  Tier 3 — SUSPICIOUS IN AGGREGATE:
+  Tier 3 - SUSPICIOUS IN AGGREGATE:
     Individual events look fine, but the pattern is concerning.
     Examples:
       Same user from multiple IPs → credential compromise
@@ -56,14 +56,14 @@ TIERED DETECTION STRATEGY:
     Implementation: defaultdict/Counter tracking state across all events
 
 
-JSON NAVIGATION — SAFELY ACCESSING NESTED DATA:
+JSON NAVIGATION - SAFELY ACCESSING NESTED DATA:
 --------------------------------------------------
   CloudTrail events are deeply nested JSON. Keys might be missing.
 
-  BAD — crashes on missing keys:
+  BAD - crashes on missing keys:
     event["requestParameters"]["bucketName"]   # KeyError if missing
 
-  GOOD — safe navigation with .get() and defaults:
+  GOOD - safe navigation with .get() and defaults:
     params = event.get("requestParameters") or {}
     bucket = params.get("bucketName", "unknown")
 
@@ -75,12 +75,12 @@ SETS FOR FAST MEMBERSHIP CHECKS:
 -----------------------------------
   high_risk = {"StopLogging", "DeleteTrail", "CreateAccessKey"}
 
-  "StopLogging" in high_risk   # O(1) — instant, regardless of set size
-  "GetObject" in high_risk     # O(1) — instant "no"
+  "StopLogging" in high_risk   # O(1) - instant, regardless of set size
+  "GetObject" in high_risk     # O(1) - instant "no"
 
   Compare to a list:
   ["StopLogging", "DeleteTrail", "CreateAccessKey"]
-  "GetObject" in list_version  # O(n) — must check every element
+  "GetObject" in list_version  # O(n) - must check every element
 
 
 ONE-LINE RECALLS:
@@ -90,7 +90,7 @@ ONE-LINE RECALLS:
                      (Counter/defaultdict)"
   AWS playbook:     "Cryptomine → exfiltrate → persist → cover tracks"
   Safe JSON:        ".get(key, default) chains with 'or {}' for null values"
-  Sets:             "O(1) membership check — perfect for 'is this event
+  Sets:             "O(1) membership check - perfect for 'is this event
                      in the dangerous list?'"
 
 =====================================================================
@@ -157,7 +157,7 @@ def analyze_cloudtrail(logs):
 
         # --- Tier 2: Parameter-based detection ---
 
-        # RunInstances — expensive or high-count launches (cryptomining)
+        # RunInstances - expensive or high-count launches (cryptomining)
         if event_name == "RunInstances":
             count = params.get("minCount", 1)
             instance_type = params.get("instanceType", "")
@@ -171,10 +171,10 @@ def analyze_cloudtrail(logs):
                     "user": user,
                     "ip": ip,
                     "time": time,
-                    "reason": f"Launching {count}x {instance_type} — possible cryptomining",
+                    "reason": f"Launching {count}x {instance_type} - possible cryptomining",
                 })
 
-        # PutBucketPolicy — public access (data exposure)
+        # PutBucketPolicy - public access (data exposure)
         if event_name == "PutBucketPolicy":
             policy = str(params.get("policy", ""))
             bucket = params.get("bucketName", "unknown")
@@ -189,7 +189,7 @@ def analyze_cloudtrail(logs):
                     "reason": f"Bucket '{bucket}' policy set to public (Principal: *)",
                 })
 
-        # AuthorizeSecurityGroupIngress — open to the world
+        # AuthorizeSecurityGroupIngress - open to the world
         if event_name == "AuthorizeSecurityGroupIngress":
             ip_perms = params.get("ipPermissions", {}).get("items", [])
             for perm in ip_perms:
@@ -232,7 +232,7 @@ def analyze_cloudtrail(logs):
                 "user": user,
                 "ip": "aggregate",
                 "time": "aggregate",
-                "reason": f"User '{user}' made {count} API calls — unusual volume",
+                "reason": f"User '{user}' made {count} API calls - unusual volume",
             })
 
     return sorted(alerts, key=lambda x: (x["tier"], x["severity"]))
@@ -240,7 +240,7 @@ def analyze_cloudtrail(logs):
 
 if __name__ == "__main__":
     cloudtrail_logs = [
-        # developer1 — NORMAL: reading instances and S3 objects
+        # developer1 - NORMAL: reading instances and S3 objects
         {
             "eventTime": "2025-04-09T10:15:32Z",
             "eventName": "DescribeInstances",
@@ -269,7 +269,7 @@ if __name__ == "__main__":
             "errorCode": None,
         },
 
-        # admin from 203.45.167.22 — ATTACK SEQUENCE:
+        # admin from 203.45.167.22 - ATTACK SEQUENCE:
         # Step 1: Launch GPU instances (cryptomining)
         {
             "eventTime": "2025-04-09T10:15:33Z",
@@ -341,7 +341,7 @@ if __name__ == "__main__":
             "errorCode": None,
         },
 
-        # admin from DIFFERENT IP — triggers multi-IP detection
+        # admin from DIFFERENT IP - triggers multi-IP detection
         {
             "eventTime": "2025-04-09T10:15:37Z",
             "eventName": "ConsoleLogin",
@@ -365,9 +365,9 @@ if __name__ == "__main__":
             if alert["tier"] != current_tier:
                 current_tier = alert["tier"]
                 tier_labels = {
-                    1: "TIER 1 — High-Risk API Calls",
-                    2: "TIER 2 — Dangerous Parameters",
-                    3: "TIER 3 — Aggregate Patterns",
+                    1: "TIER 1 - High-Risk API Calls",
+                    2: "TIER 2 - Dangerous Parameters",
+                    3: "TIER 3 - Aggregate Patterns",
                 }
                 print(f"\n--- {tier_labels.get(current_tier, 'Unknown')} ---\n")
 

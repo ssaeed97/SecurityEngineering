@@ -1,9 +1,9 @@
 """
-URL CATEGORIZER — Web Traffic Analysis and Threat Detection
+URL CATEGORIZER - Web Traffic Analysis and Threat Detection
 
 
 =====================================================================
-REFERENCE NOTES — urlparse, parse_qs, Base64, Open Redirects, SSRF
+REFERENCE NOTES - urlparse, parse_qs, Base64, Open Redirects, SSRF
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -15,7 +15,7 @@ WHY THIS MATTERS FOR SE WORK:
     threat hunting, phishing detection, IDS signatures
 
 
-urlparse — BUILT-IN URL PARSER:
+urlparse - BUILT-IN URL PARSER:
 ---------------------------------
   from urllib.parse import urlparse, parse_qs
 
@@ -35,7 +35,7 @@ urlparse — BUILT-IN URL PARSER:
     scheme  netloc (domain)  path    query parameters
 
 
-BASE64 DETECTION — SPOTTING ENCODED DATA:
+BASE64 DETECTION - SPOTTING ENCODED DATA:
 --------------------------------------------
   Base64 encodes binary data using only these characters:
     A-Z, a-z, 0-9, +, / and = for padding
@@ -46,15 +46,15 @@ BASE64 DETECTION — SPOTTING ENCODED DATA:
     - Only contains the allowed character set
 
   Detection chain:
-    1. Regex: r'^[A-Za-z0-9+/]+=*$' — only base64 characters
+    1. Regex: r'^[A-Za-z0-9+/]+=*$' - only base64 characters
        ^              → start of string
        [A-Za-z0-9+/]  → any letter, digit, plus, or slash
        +              → one or more of above
        =*             → zero or more padding equals
        $              → end of string
-    2. len(value) % 4 == 0 — length is multiple of 4
-    3. len(value) >= 8 — ignore short strings that match accidentally
-    4. base64.b64decode(value) — actually try to decode, confirm it works
+    2. len(value) % 4 == 0 - length is multiple of 4
+    3. len(value) >= 8 - ignore short strings that match accidentally
+    4. base64.b64decode(value) - actually try to decode, confirm it works
 
   Example:
     "c2VjcmV0cw==" → regex match ✅, len=12, 12%4=0 ✅, >=8 ✅,
@@ -65,7 +65,7 @@ BASE64 DETECTION — SPOTTING ENCODED DATA:
     "abc123" → regex match ✅, len=6, 6%4=2 ❌ → NOT base64
 
 
-OPEN REDIRECT — HOW IT WORKS:
+OPEN REDIRECT - HOW IT WORKS:
 --------------------------------
   An open redirect lets attackers craft a link on a TRUSTED domain
   that sends the victim to a MALICIOUS site.
@@ -102,7 +102,7 @@ SSRF via AWS METADATA:
 
 ONE-LINE RECALLS:
 ------------------
-  urlparse:      "scheme, netloc (domain), path, query — built-in URL parser"
+  urlparse:      "scheme, netloc (domain), path, query - built-in URL parser"
   parse_qs:      "Turns query string into dict of lists"
   Base64 check:  "Regex for allowed chars + length multiple of 4 + try decode"
   Open redirect: "Redirect param with http:// value = phishing vector"
@@ -187,7 +187,7 @@ def analyze_urls(urls):
                 "url": url,
                 "type": "SSRF",
                 "severity": "CRITICAL",
-                "reason": "AWS metadata endpoint access — SSRF indicator",
+                "reason": "AWS metadata endpoint access - SSRF indicator",
             })
 
         # Check 3: Open redirect
@@ -211,7 +211,7 @@ def analyze_urls(urls):
                         "url": url,
                         "type": "BASE64_EXFIL",
                         "severity": "HIGH",
-                        "reason": f"Base64 data in param '{key}' — decoded: '{decoded}'",
+                        "reason": f"Base64 data in param '{key}' - decoded: '{decoded}'",
                     })
 
     return grouped, alerts
@@ -224,20 +224,20 @@ if __name__ == "__main__":
         "https://api.example.com/v1/users?id=456&role=user",
         "https://cdn.legit-site.com/assets/logo.png",
 
-        # Malicious domain — C2 beacons
+        # Malicious domain - C2 beacons
         "http://malware-c2.evil.com/beacon?host=victim01&key=abc123",
         "http://malware-c2.evil.com/beacon?host=victim02&key=def456",
 
-        # Malicious domain — data exfiltration with base64-encoded data
+        # Malicious domain - data exfiltration with base64-encoded data
         "http://malware-c2.evil.com/exfil?data=c2VjcmV0cw==",
 
         # Open redirect attempt
         "https://api.example.com/v1/login?redirect=http://evil.com",
 
-        # SSRF — AWS metadata endpoint
+        # SSRF - AWS metadata endpoint
         "http://169.254.169.254/latest/meta-data/iam/security-credentials/",
 
-        # Internal admin traffic — not malicious but worth grouping
+        # Internal admin traffic - not malicious but worth grouping
         "https://internal.corp.net/admin/dashboard",
         "https://internal.corp.net/admin/users?action=delete&target=all",
     ]
@@ -269,12 +269,12 @@ if __name__ == "__main__":
     print(f"=== Summary: {len(alerts)} alerts across {len(grouped)} domains ===")
 
     # Expected alerts:
-    # [HIGH]     MALICIOUS_DOMAIN — malware-c2.evil.com (3 URLs)
-    # [CRITICAL] SSRF — 169.254.169.254 metadata access
-    # [MEDIUM]   OPEN_REDIRECT — redirect param pointing to http://evil.com
-    # [HIGH]     BASE64_EXFIL — "c2VjcmV0cw==" decodes to "secrets"
+    # [HIGH]     MALICIOUS_DOMAIN - malware-c2.evil.com (3 URLs)
+    # [CRITICAL] SSRF - 169.254.169.254 metadata access
+    # [MEDIUM]   OPEN_REDIRECT - redirect param pointing to http://evil.com
+    # [HIGH]     BASE64_EXFIL - "c2VjcmV0cw==" decodes to "secrets"
     #
     # NOT flagged:
-    #   api.example.com — normal API traffic
-    #   cdn.legit-site.com — normal CDN access
-    #   internal.corp.net — internal admin (grouped but not alerted)
+    #   api.example.com - normal API traffic
+    #   cdn.legit-site.com - normal CDN access
+    #   internal.corp.net - internal admin (grouped but not alerted)

@@ -1,8 +1,8 @@
 """
-LOG CORRELATION — Hashmap-Based Security Event Correlator
+LOG CORRELATION - Hashmap-Based Security Event Correlator
 
 =====================================================================
-REFERENCE NOTES — Hashmaps, O(1) Lookup, defaultdict, Log Correlation
+REFERENCE NOTES - Hashmaps, O(1) Lookup, defaultdict, Log Correlation
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -33,7 +33,7 @@ WHY HASHMAPS MATTER FOR LOG CORRELATION:
   Problem: Given auth_logs (n entries) and access_logs (m entries),
   find all access events for each authenticated IP.
 
-  NAIVE — nested loops, O(n × m):
+  NAIVE - nested loops, O(n × m):
     for auth in auth_logs:           # n iterations
         for access in access_logs:   # m iterations EACH TIME
             if auth.ip == access.ip:
@@ -41,7 +41,7 @@ WHY HASHMAPS MATTER FOR LOG CORRELATION:
 
     1000 auth × 10000 access = 10,000,000 comparisons
 
-  HASHMAP — index one log, walk the other, O(n + m):
+  HASHMAP - index one log, walk the other, O(n + m):
     access_by_ip = {}
     for access in access_logs:       # m iterations, ONE pass
         access_by_ip[access.ip].append(access)
@@ -49,10 +49,10 @@ WHY HASHMAPS MATTER FOR LOG CORRELATION:
     for auth in auth_logs:           # n iterations, ONE pass
         events = access_by_ip[auth.ip]   # O(1) lookup
 
-    1000 + 10000 = 11,000 operations — 1000x faster
+    1000 + 10000 = 11,000 operations - 1000x faster
 
 
-defaultdict(list) — AUTO-GROUPING PATTERN:
+defaultdict(list) - AUTO-GROUPING PATTERN:
 --------------------------------------------
   The most common pattern for log correlation:
   "Group all events by IP (or user, or session ID)"
@@ -77,13 +77,13 @@ defaultdict(list) — AUTO-GROUPING PATTERN:
   defaultdict saves 2 lines every time.
 
 
-PARSE ONCE, REUSE — AVOID REPEATED .split():
+PARSE ONCE, REUSE - AVOID REPEATED .split():
 -----------------------------------------------
-  BAD — splits the same string multiple times:
+  BAD - splits the same string multiple times:
     if "FAILED" in log.split()[3]:
         auth_by_ip[log.split()[2]].append(log)
 
-  GOOD — split once, store in variables:
+  GOOD - split once, store in variables:
     parts = log.split()
     ip = parts[2]
     status = parts[3]
@@ -91,7 +91,7 @@ PARSE ONCE, REUSE — AVOID REPEATED .split():
         auth_by_ip[ip].append(log)
 
 
-DETECTION PATTERN — FAILED → SUCCESS → ADMIN ACCESS:
+DETECTION PATTERN - FAILED → SUCCESS → ADMIN ACCESS:
 -------------------------------------------------------
   This is a classic account compromise indicator:
     1. Attacker tries credentials → multiple LOGIN_FAILED
@@ -107,12 +107,12 @@ DETECTION PATTERN — FAILED → SUCCESS → ADMIN ACCESS:
 
 ONE-LINE RECALLS:
 ------------------
-  Hashmap:      "Python dict IS a hashmap — O(1) lookup by key"
-  Correlation:  "Index one log by IP in O(m), walk the other in O(n) —
+  Hashmap:      "Python dict IS a hashmap - O(1) lookup by key"
+  Correlation:  "Index one log by IP in O(m), walk the other in O(n) -
                  total O(n+m) instead of O(n×m)"
-  defaultdict:  "Auto-creates empty list for new keys — perfect for
+  defaultdict:  "Auto-creates empty list for new keys - perfect for
                  grouping events by IP"
-  Parse once:   "Split once, store in variables — don't call .split()
+  Parse once:   "Split once, store in variables - don't call .split()
                  multiple times on the same string"
   Pattern:      "Failed → Success → Admin = potential account compromise"
 
@@ -136,7 +136,7 @@ def correlate_logs(auth_logs, access_logs):
     Returns:
         List of dicts describing flagged IPs with their suspicious activity
     """
-    # Step 1: Index access logs by IP — O(m)
+    # Step 1: Index access logs by IP - O(m)
     access_by_ip = defaultdict(list)
     for line in access_logs:
         parts = line.split()
@@ -148,7 +148,7 @@ def correlate_logs(auth_logs, access_logs):
             "status": parts[5],
         })
 
-    # Step 2: Walk auth logs, track failures, detect pattern — O(n)
+    # Step 2: Walk auth logs, track failures, detect pattern - O(n)
     failed_ips = defaultdict(list)
     flagged = []
 
@@ -163,7 +163,7 @@ def correlate_logs(auth_logs, access_logs):
             failed_ips[ip].append({"timestamp": timestamp, "user": user})
 
         elif status == "LOGIN_SUCCESS" and ip in failed_ips:
-            # This IP had failures before a success — check for admin access
+            # This IP had failures before a success - check for admin access
             admin_actions = [
                 a for a in access_by_ip[ip]       # O(1) lookup by IP
                 if a["path"].startswith("/admin")  # filter admin paths
@@ -183,38 +183,38 @@ def correlate_logs(auth_logs, access_logs):
 
 if __name__ == "__main__":
     auth_logs = [
-        # 192.168.1.100 — Clean login, no prior failures
+        # 192.168.1.100 - Clean login, no prior failures
         "2025-04-09 10:15:32 192.168.1.100 LOGIN_SUCCESS user=admin",
 
-        # 10.0.0.5 — Failed logins then success, but no admin access after
+        # 10.0.0.5 - Failed logins then success, but no admin access after
         "2025-04-09 10:15:33 10.0.0.5 LOGIN_FAILED user=root",
         "2025-04-09 10:15:35 10.0.0.5 LOGIN_FAILED user=root",
         "2025-04-09 10:15:38 10.0.0.5 LOGIN_SUCCESS user=root",
 
-        # 172.16.0.50 — Normal user, clean login
+        # 172.16.0.50 - Normal user, clean login
         "2025-04-09 10:15:36 172.16.0.50 LOGIN_SUCCESS user=developer",
 
-        # 203.45.167.22 — SUSPICIOUS: failed → success → admin access
+        # 203.45.167.22 - SUSPICIOUS: failed → success → admin access
         "2025-04-09 10:15:40 203.45.167.22 LOGIN_FAILED user=admin",
         "2025-04-09 10:15:42 203.45.167.22 LOGIN_FAILED user=admin",
         "2025-04-09 10:15:45 203.45.167.22 LOGIN_SUCCESS user=admin",
     ]
 
     access_logs = [
-        # 192.168.1.100 — Accessed admin, but login was clean (no failures)
+        # 192.168.1.100 - Accessed admin, but login was clean (no failures)
         "2025-04-09 10:15:33 192.168.1.100 GET /api/users 200",
         "2025-04-09 10:15:34 192.168.1.100 GET /admin/dashboard 200",
 
-        # 10.0.0.5 — Had failures, but only accessed non-admin paths
+        # 10.0.0.5 - Had failures, but only accessed non-admin paths
         "2025-04-09 10:15:39 10.0.0.5 GET /api/users 200",
         "2025-04-09 10:15:40 10.0.0.5 DELETE /api/users/5 200",
 
-        # 203.45.167.22 — Had failures, succeeded, then hit admin paths
+        # 203.45.167.22 - Had failures, succeeded, then hit admin paths
         "2025-04-09 10:15:46 203.45.167.22 GET /admin/dashboard 200",
         "2025-04-09 10:15:47 203.45.167.22 GET /admin/users 200",
         "2025-04-09 10:15:48 203.45.167.22 POST /admin/users/create 201",
 
-        # 172.16.0.50 — Normal user activity
+        # 172.16.0.50 - Normal user activity
         "2025-04-09 10:15:50 172.16.0.50 GET /api/products 200",
     ]
 
@@ -235,9 +235,9 @@ if __name__ == "__main__":
         print("  No suspicious patterns detected")
 
     # Expected output:
-    # FLAGGED: 203.45.167.22 — 2 failed logins, then success, then admin access
+    # FLAGGED: 203.45.167.22 - 2 failed logins, then success, then admin access
     #
     # NOT flagged:
-    #   192.168.1.100 — accessed admin but had NO prior failures (clean login)
-    #   10.0.0.5      — had failures then success, but accessed /api not /admin
-    #   172.16.0.50   — clean login, normal user activity
+    #   192.168.1.100 - accessed admin but had NO prior failures (clean login)
+    #   10.0.0.5      - had failures then success, but accessed /api not /admin
+    #   172.16.0.50   - clean login, normal user activity

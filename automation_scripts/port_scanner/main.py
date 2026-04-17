@@ -1,35 +1,35 @@
 """
-TCP PORT SCANNER — Network Reconnaissance Tool
+TCP PORT SCANNER - Network Reconnaissance Tool
 
 =====================================================================
-REFERENCE NOTES — Sockets, argparse, Error Handling, Networking
+REFERENCE NOTES - Sockets, argparse, Error Handling, Networking
 =====================================================================
 
 WHY WRITE A PORT SCANNER WHEN NMAP EXISTS?
 --------------------------------------------
-  In production, you'd use nmap, masscan, or netcat — not this script.
+  In production, you'd use nmap, masscan, or netcat - not this script.
   So why build one?
  
   1. LOCKED-DOWN SYSTEM, NO TOOLS:
      You're on a compromised host during an IR investigation or pentest.
-     No nmap, no netcat installed — but Python is there (it's on almost
+     No nmap, no netcat installed - but Python is there (it's on almost
      every Linux box). You need quick recon from that host.
  
   2. CUSTOM LOGIC:
      You need to scan ports AND immediately send a specific HTTP request
      to every open port to check for a vulnerable endpoint. Or correlate
      results with an internal asset database in real-time. Off-the-shelf
-     tools don't do that — you build on top of socket fundamentals.
+     tools don't do that - you build on top of socket fundamentals.
  
   3. BUILDING DETECTION, NOT OFFENSE:
      Understanding how scanners work at the socket level lets you write
      better detection rules. A connect scan opens a TCP connection and
-     immediately closes it without sending data — if you know that
+     immediately closes it without sending data - if you know that
      pattern, you can detect it in network logs and IDS rules.
  
   4. INTERVIEW FUNDAMENTALS:
      Google wants to know you understand what happens at the socket level
-     when a connection is made — not that you can type "nmap -sV".
+     when a connection is made - not that you can type "nmap -sV".
 
     COMPARISON OF TOOLS:
         nmap     → gold standard. SYN scanning, OS fingerprinting, scripting engine
@@ -40,7 +40,7 @@ WHY WRITE A PORT SCANNER WHEN NMAP EXISTS?
 SOCKET BASICS:
 ---------------
   A socket is an endpoint for network communication. Think of it as
-  a phone — you create it, dial a number (IP + port), and either
+  a phone - you create it, dial a number (IP + port), and either
   someone picks up (open) or they don't (closed/filtered).
 
   socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -62,7 +62,7 @@ connect() vs connect_ex():
     non-zero → connection failed (port is CLOSED or FILTERED)
 
   For a port scanner, connect_ex is better because you don't need
-  try/except for every single port — just check if result == 0.
+  try/except for every single port - just check if result == 0.
 
 
 settimeout():
@@ -79,7 +79,7 @@ settimeout():
     3-5s  → slow or distant hosts
 
 
-PORT STATES — WHAT HAPPENS WHEN YOU SCAN:
+PORT STATES - WHAT HAPPENS WHEN YOU SCAN:
 -------------------------------------------
   OPEN      → target responds with SYN-ACK → connection succeeds
               A service is listening on this port.
@@ -99,10 +99,10 @@ setsockopt(SOL_SOCKET, SO_REUSEADDR, 1):
 
   SO_REUSEADDR tells the OS: "let me reuse this port immediately."
   Only needed for SERVERS (bind/listen), not for clients (connect).
-  Useful when testing — you'll restart your listener many times.
+  Useful when testing - you'll restart your listener many times.
 
 
-ARGPARSE — COMMAND-LINE ARGUMENTS:
+ARGPARSE - COMMAND-LINE ARGUMENTS:
 ------------------------------------
   argparse reads command-line args and converts them to the right types.
 
@@ -130,7 +130,7 @@ TRY / EXCEPT / FINALLY:
   except Exception as e:
       # handle any other error
   finally:
-      # ALWAYS runs — even if an exception occurred
+      # ALWAYS runs - even if an exception occurred
       # use for cleanup like closing sockets/files
 
   Why finally matters for sockets:
@@ -167,11 +167,11 @@ HOW TO TEST THIS SCRIPT:
 ONE-LINE RECALLS:
 ------------------
   Socket:          "socket() creates it, connect_ex() tests it, 0 means open"
-  Timeout:         "settimeout() prevents hanging on filtered ports — always set it"
-  connect_ex:      "Returns 0 for open, non-zero for closed/filtered — no exceptions"
-  finally:         "finally ALWAYS runs — use it to close sockets and files"
+  Timeout:         "settimeout() prevents hanging on filtered ports - always set it"
+  connect_ex:      "Returns 0 for open, non-zero for closed/filtered - no exceptions"
+  finally:         "finally ALWAYS runs - use it to close sockets and files"
   argparse:        "Positional args are required, --flag args are optional with defaults"
-  SO_REUSEADDR:    "Lets you rebind a port immediately — use in test servers"
+  SO_REUSEADDR:    "Lets you rebind a port immediately - use in test servers"
 
 =====================================================================
 """

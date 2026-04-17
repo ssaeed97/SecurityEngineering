@@ -1,8 +1,8 @@
 """
-SSH AUTH LOG PARSER — Brute Force Attack Analyzer
+SSH AUTH LOG PARSER - Brute Force Attack Analyzer
 
 =====================================================================
-REFERENCE NOTES — Non-Capturing Groups, Variable Init, Invalid Users
+REFERENCE NOTES - Non-Capturing Groups, Variable Init, Invalid Users
 =====================================================================
 
 NON-CAPTURING GROUPS (?:):
@@ -23,22 +23,22 @@ NON-CAPTURING GROUPS (?:):
 
   In this exercise we REMOVED (?:) and used () instead, because we needed
   to check whether "invalid user" was present to track invalid usernames.
-  match.group(2) gives us "invalid user " or None — we use that to decide.
+  match.group(2) gives us "invalid user " or None - we use that to decide.
 
 
-VARIABLE PLACEMENT BUG — THE #1 LOOP MISTAKE:
+VARIABLE PLACEMENT BUG - THE #1 LOOP MISTAKE:
 -----------------------------------------------
-  WRONG — lists reset on every iteration:
+  WRONG - lists reset on every iteration:
     for log in logs:
         results = []          # ← created inside loop = reset every time!
         results.append(x)     # only keeps the last iteration's data
 
-  RIGHT — lists persist across all iterations:
+  RIGHT - lists persist across all iterations:
     results = []              # ← created OUTSIDE loop = accumulates data
     for log in logs:
         results.append(x)     # keeps everything
 
-  In an interview, catch this by TESTING — "why do I only have 1 result
+  In an interview, catch this by TESTING - "why do I only have 1 result
   when there should be more?" Then check where your lists are initialized.
 
 
@@ -81,10 +81,10 @@ REGEX PATTERN BREAKDOWN:
                                [\d\.]+ = one or more digits or dots
 
 
-NEW REGEX PATTERN — CHARACTER CLASS []:
+NEW REGEX PATTERN - CHARACTER CLASS []:
 -----------------------------------------
   [\d\.]    → match a digit OR a dot (character class)
-  [\d\.]+   → one or more of (digit or dot) — perfect for IP addresses
+  [\d\.]+   → one or more of (digit or dot) - perfect for IP addresses
 
   Character classes [] let you define a SET of allowed characters:
     [abc]     → matches a, b, or c
@@ -95,10 +95,10 @@ NEW REGEX PATTERN — CHARACTER CLASS []:
 
 ONE-LINE RECALLS:
 ------------------
-  (?:):          "Group without capturing — use when ? needs to apply to multiple words but you don't need the value"
-  Loop bug:      "Initialize lists OUTSIDE the loop — inside means reset every iteration"
-  Two formats:   "Make the differing part optional with ()? — group is None when absent, has value when present"
-  [] class:      "Square brackets define a set of allowed characters — [\d\.]+ matches IP addresses"
+  (?:):          "Group without capturing - use when ? needs to apply to multiple words but you don't need the value"
+  Loop bug:      "Initialize lists OUTSIDE the loop - inside means reset every iteration"
+  Two formats:   "Make the differing part optional with ()? - group is None when absent, has value when present"
+  [] class:      "Square brackets define a set of allowed characters - [\d\.]+ matches IP addresses"
 
 =====================================================================
 """

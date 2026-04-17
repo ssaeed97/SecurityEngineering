@@ -1,9 +1,9 @@
 """
-DDOS DETECTION — Sliding Window Request Rate Analyzer
+DDOS DETECTION - Sliding Window Request Rate Analyzer
 
 
 =====================================================================
-REFERENCE NOTES — Sliding Window, defaultdict, datetime, Two Pointers
+REFERENCE NOTES - Sliding Window, defaultdict, datetime, Two Pointers
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -16,15 +16,15 @@ WHY THIS MATTERS FOR SE WORK:
     within a rolling time period" problem
 
 
-SLIDING WINDOW — THE CORE TECHNIQUE:
+SLIDING WINDOW - THE CORE TECHNIQUE:
 ---------------------------------------
   Problem: "How many events from this IP happened in any 10-second span?"
 
   Naive approach: For each event, scan all other events within 10 seconds.
-    → O(n²) — too slow for millions of log entries.
+    → O(n²) - too slow for millions of log entries.
 
   Sliding window: Sort timestamps, use two pointers (left and right).
-    → O(n) per IP — left and right only ever move forward.
+    → O(n) per IP - left and right only ever move forward.
 
   How it works:
     1. Sort timestamps for each IP
@@ -50,7 +50,7 @@ SLIDING WINDOW — THE CORE TECHNIQUE:
     right=5: [50, 51, 52]       left=3, count=3
 
 
-defaultdict(list) — AUTO-CREATING DICT:
+defaultdict(list) - AUTO-CREATING DICT:
 -----------------------------------------
   Normal dict crashes if key doesn't exist:
     d = {}
@@ -67,7 +67,7 @@ defaultdict(list) — AUTO-CREATING DICT:
     defaultdict(set)     → empty set for new keys (unique grouping)
 
 
-datetime.strptime() — PARSING TIMESTAMPS:
+datetime.strptime() - PARSING TIMESTAMPS:
 --------------------------------------------
   Converts a string timestamp into a datetime object:
     from datetime import datetime
@@ -87,10 +87,10 @@ datetime.strptime() — PARSING TIMESTAMPS:
 ONE-LINE RECALLS:
 ------------------
   Sliding window: "Right advances every step, left advances when window
-                   is too wide — count is right minus left plus one"
-  defaultdict:    "Auto-creates default value for missing keys — list for
+                   is too wide - count is right minus left plus one"
+  defaultdict:    "Auto-creates default value for missing keys - list for
                    grouping, int for counting"
-  strptime:       "String Parse Time — converts text timestamp to datetime
+  strptime:       "String Parse Time - converts text timestamp to datetime
                    using format codes"
   Complexity:     "O(n) per IP because both pointers only move forward"
 
@@ -153,7 +153,7 @@ def detect_ddos(logs, threshold=10, window_seconds=10):
 
 if __name__ == "__main__":
     logs = [
-        # === 192.168.1.100 — DDoS attacker: 15 requests in ~8 seconds ===
+        # === 192.168.1.100 - DDoS attacker: 15 requests in ~8 seconds ===
         # Should be FLAGGED (exceeds threshold of 10 in a 10-second window)
         "2025-04-09 10:15:32 192.168.1.100 GET /api/users 200",
         "2025-04-09 10:15:32 192.168.1.100 GET /api/products 200",
@@ -171,10 +171,10 @@ if __name__ == "__main__":
         "2025-04-09 10:15:39 192.168.1.100 GET /api/users 200",
         "2025-04-09 10:15:40 192.168.1.100 GET /api/users 200",
 
-        # === 10.0.0.5 — Two bursts, but NOT within 10 seconds of each other ===
+        # === 10.0.0.5 - Two bursts, but NOT within 10 seconds of each other ===
         # Burst 1: 6 requests at 10:15:33-10:15:36
         # Burst 2: 5 requests at 10:16:00-10:16:03
-        # Gap between bursts is 24 seconds — neither burst alone exceeds threshold
+        # Gap between bursts is 24 seconds - neither burst alone exceeds threshold
         # Should NOT be flagged
         "2025-04-09 10:15:33 10.0.0.5 GET /index.html 200",
         "2025-04-09 10:15:33 10.0.0.5 GET /about 200",
@@ -188,16 +188,16 @@ if __name__ == "__main__":
         "2025-04-09 10:16:02 10.0.0.5 GET /contact 200",
         "2025-04-09 10:16:03 10.0.0.5 GET /faq 200",
 
-        # === 172.16.0.50 — Normal user: low volume, no bursts ===
-        # 4 requests spread across 30 seconds — well under threshold
+        # === 172.16.0.50 - Normal user: low volume, no bursts ===
+        # 4 requests spread across 30 seconds - well under threshold
         # Should NOT be flagged
         "2025-04-09 10:15:34 172.16.0.50 GET /about 200",
         "2025-04-09 10:15:42 172.16.0.50 GET /products 200",
         "2025-04-09 10:15:50 172.16.0.50 GET /contact 200",
         "2025-04-09 10:16:05 172.16.0.50 GET /home 200",
 
-        # === 203.45.167.22 — Brute forcer: 12 requests in 6 seconds ===
-        # All hitting the login endpoint with 401s — classic brute force pattern
+        # === 203.45.167.22 - Brute forcer: 12 requests in 6 seconds ===
+        # All hitting the login endpoint with 401s - classic brute force pattern
         # Should be FLAGGED (exceeds threshold of 10 in a 10-second window)
         "2025-04-09 10:20:00 203.45.167.22 POST /api/login 401",
         "2025-04-09 10:20:00 203.45.167.22 POST /api/login 401",

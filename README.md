@@ -5,13 +5,13 @@
 ![OWASP](https://img.shields.io/badge/Reference-OWASP-000000?logo=owasp&logoColor=white)
 ![STRIDE](https://img.shields.io/badge/Threat%20Modeling-STRIDE-orange)
 
-A hands-on reference for security engineering — covering practical scripting, application security concepts, threat modeling, and interview preparation.
+A hands-on reference for security engineering, covering practical scripting, application security concepts, threat modeling, and interview preparation.
 
 ---
 
 ## What This Is
 
-This repository is a structured study resource built around the skills that matter in security engineering roles at product and consulting companies. It is not a collection of CTF writeups or theoretical notes — everything here is grounded in the kind of work security engineers actually do: writing detection scripts, reviewing code for vulnerabilities, modeling threats, and reasoning about cryptography and authentication.
+This repository is a structured study resource built around the skills that matter in security engineering roles at product and consulting companies. It is not a collection of CTF writeups or theoretical notes, everything here is grounded in the kind of work security engineers actually do: writing detection scripts, reviewing code for vulnerabilities, modeling threats, and reasoning about cryptography and authentication.
 
 The content is organized into four areas, each independently useful:
 
@@ -24,13 +24,13 @@ The content is organized into four areas, each independently useful:
 
 ## Who This Is For
  
-**Anyone learning security engineering** — each scripting problem includes detailed reference notes explaining the underlying concepts, why they matter in real SE work, and how to recall the solution approach. Each cheatsheet covers a distinct domain within security engineering and focuses on how to apply that knowledge in practical, real-world scenarios. The cheatsheets are not introductions to a topic — they assume familiarity with the concepts and are designed to help you implement that knowledge effectively when it counts.
+**Anyone learning security engineering** -  each scripting problem includes detailed reference notes explaining the underlying concepts, why they matter in real SE work, and how to recall the solution approach. Each cheatsheet covers a distinct domain within security engineering and focuses on how to apply that knowledge in practical, real-world scenarios. The cheatsheets are not introductions to a topic, they assume familiarity with the concepts and are designed to help you implement that knowledge effectively when it counts.
  
 ---
  
 ## Scope and Roadmap
  
-This repository is continuously evolving. New domains and topics are added as they are encountered in real security engineering work and assessed to be a necessary part of a well-rounded security engineering skillset. The goal is not to be exhaustive — it is to be practically useful across the areas that come up most in the field.
+This repository is continuously evolving. New domains and topics are added as they are encountered in real security engineering work and assessed to be a necessary part of a well-rounded security engineering skillset. The goal is not to be exhaustive, it is to be practically useful across the areas that come up most in the field.
 
 ---
 
@@ -47,7 +47,7 @@ This repository is continuously evolving. New domains and topics are added as th
 
 ## How to Use This
 
-Each section is independently navigable — start wherever is most relevant to what you are working on.
+Each section is independently navigable, start wherever is most relevant to what you are working on.
 
 For the scripting problems, the recommended approach is:
 
@@ -56,7 +56,7 @@ For the scripting problems, the recommended approach is:
 3. Compare your approach with the reference implementation
 4. Study the concept notes at the top of each file
 
-The cheatsheets are designed as quick-reference companions — useful during active study and as a refresher before interviews.
+The cheatsheets are designed as quick-reference companions, useful during active study and as a refresher before interviews.
 
 ---
 
@@ -66,4 +66,4 @@ This is a living reference. Contributions, corrections, and new problems are wel
 
 ## License
 
-MIT License — see the [LICENSE](LICENSE) file for details.
+MIT License - see the [LICENSE](LICENSE) file for details.

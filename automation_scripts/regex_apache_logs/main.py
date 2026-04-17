@@ -1,11 +1,11 @@
 """
-REGEX LOG PARSER — Apache Access Log Analyzer
+REGEX LOG PARSER - Apache Access Log Analyzer
 
 =====================================================================
-REFERENCE NOTES — Regex Patterns, Skipping, Capture Groups
+REFERENCE NOTES - Regex Patterns, Skipping, Capture Groups
 =====================================================================
 
-REGEX CHEAT SHEET — EVERY PATTERN USED IN THIS EXERCISE:
+REGEX CHEAT SHEET - EVERY PATTERN USED IN THIS EXERCISE:
 ----------------------------------------------------------
 
   MATCHING CHARACTERS:
@@ -21,10 +21,10 @@ REGEX CHEAT SHEET — EVERY PATTERN USED IN THIS EXERCISE:
     \.        → a literal dot (backslash "escapes" the special meaning)
 
   QUANTIFIERS (how many times to match):
-    +         → one or more        (greedy — grabs as much as possible)
+    +         → one or more        (greedy - grabs as much as possible)
     *         → zero or more       (greedy)
     ?         → zero or one        (makes something optional)
-    +?        → one or more        (lazy — grabs as LITTLE as possible)
+    +?        → one or more        (lazy - grabs as LITTLE as possible)
     *?        → zero or more       (lazy)
     {3}       → exactly 3 times
     {1,3}     → between 1 and 3 times
@@ -37,10 +37,10 @@ REGEX CHEAT SHEET — EVERY PATTERN USED IN THIS EXERCISE:
     .*        → match anything, as much as possible (greedy)
     .*?       → match anything, as LITTLE as possible (lazy)
     ".*?"     → match everything between two quotes (lazy stops at first closing quote)
-    ".*"      → match everything between FIRST opening and LAST closing quote (greedy — usually wrong!)
+    ".*"      → match everything between FIRST opening and LAST closing quote (greedy - usually wrong!)
 
 
-THE ? IN REGEX — IT HAS TWO MEANINGS:
+THE ? IN REGEX - IT HAS TWO MEANINGS:
 ---------------------------------------
 
   MEANING 1: "Optional" (after a character or group)
@@ -119,7 +119,7 @@ HOW REGEX "SKIPPING" WORKS:
               no parentheses = SKIP it (just move past it)
 
 
-CAPTURE GROUPS — HOW TO ACCESS THEM:
+CAPTURE GROUPS - HOW TO ACCESS THEM:
 --------------------------------------
   match = re.search(pattern, line)
   match.group(0)   → the ENTIRE match (everything the pattern touched)
@@ -154,11 +154,11 @@ SET vs LIST:
 
 ONE-LINE RECALLS:
 ------------------
-  Regex skipping:  "Parentheses capture, no parentheses skip — .*? eats what you don't need"
+  Regex skipping:  "Parentheses capture, no parentheses skip - .*? eats what you don't need"
   ? after *:       ".*? is lazy (match as little as possible), .* is greedy (match as much as possible)"
   ? after char:    "s? means s is optional"
   Capture groups:  "re.search() + group(1), group(2)... to extract structured fields"
-  set:             "Use set() when the problem says 'unique' — .add() deduplicates automatically"
+  set:             "Use set() when the problem says 'unique' - .add() deduplicates automatically"
 
 =====================================================================
 """

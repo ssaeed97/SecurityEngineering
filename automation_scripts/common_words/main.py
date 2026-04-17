@@ -1,9 +1,9 @@
 """
-WORD FREQUENCY COUNTER — Text Analysis Tool
+WORD FREQUENCY COUNTER - Text Analysis Tool
 Security Engineer Coding Practice Problem #5
 
 =====================================================================
-REFERENCE NOTES — Counter, String Cleaning, Stop Words, Text Processing
+REFERENCE NOTES - Counter, String Cleaning, Stop Words, Text Processing
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -13,7 +13,7 @@ WHY THIS MATTERS FOR SE WORK:
   - Counter is the go-to tool whenever you need "top N most common" anything
 
 
-COUNTER — THE COUNTING SHORTCUT:
+COUNTER - THE COUNTING SHORTCUT:
 ----------------------------------
   from collections import Counter
 
@@ -44,22 +44,22 @@ TEXT CLEANING FOR ACCURATE COUNTING:
     \w       → letters, digits, underscore
     \s       → whitespace (space, tab, newline)
     ^        → inside [] means "NOT these characters"
-    So [^\w\s] matches punctuation, symbols, special chars — and we replace with ''
+    So [^\w\s] matches punctuation, symbols, special chars - and we replace with ''
 
 
-STOP WORDS — FILTERING NOISE:
+STOP WORDS - FILTERING NOISE:
 -------------------------------
   Common words like "is", "the", "a", "for" dominate frequency counts
   but carry no meaning. Filtering them reveals the actual content.
 
-  Simple approach — define a set of stop words:
+  Simple approach - define a set of stop words:
     stop_words = {"is", "a", "for", "the", "and", "to", "of", "in"}
     words = [w for w in text.split() if w not in stop_words]
 
   Why a set and not a list?
-    Sets have O(1) lookup — checking "is this word a stop word?"
+    Sets have O(1) lookup - checking "is this word a stop word?"
     is instant regardless of how many stop words you have.
-    Lists have O(n) lookup — slower as the list grows.
+    Lists have O(n) lookup - slower as the list grows.
 
 
 .split() HANDLES MULTIPLE DELIMITERS:
@@ -73,7 +73,7 @@ STOP WORDS — FILTERING NOISE:
 
 ONE-LINE RECALLS:
 ------------------
-  Counter:      "Counter counts, most_common sorts — pass it a list, get ranked results"
+  Counter:      "Counter counts, most_common sorts - pass it a list, get ranked results"
   Text clean:   "lower() for case, re.sub(r'[^\w\s]', '', text) for punctuation"
   Stop words:   "Use a set for O(1) lookup, filter with list comprehension"
   split():      "No args = splits on all whitespace including newlines"
@@ -138,6 +138,6 @@ if __name__ == "__main__":
     for word, count in word_frequency_clean(text):
         print(f"  {word}: {count}")
 
-    print("\n=== Filtered Word Frequency — Stop Words Removed (Top 5) ===")
+    print("\n=== Filtered Word Frequency - Stop Words Removed (Top 5) ===")
     for word, count in word_frequency_filtered(text):
         print(f"  {word}: {count}")

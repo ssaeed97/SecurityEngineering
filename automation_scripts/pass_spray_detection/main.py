@@ -1,15 +1,15 @@
 """
-PASSWORD SPRAYING DETECTOR — Tuple Key Pattern for Multi-Dimensional Tracking
+PASSWORD SPRAYING DETECTOR - Tuple Key Pattern for Multi-Dimensional Tracking
 Security Engineer Coding Practice Problem #15
 
 =====================================================================
-REFERENCE NOTES — Tuple Keys, Spraying vs Brute Force, defaultdict(set)
+REFERENCE NOTES - Tuple Keys, Spraying vs Brute Force, defaultdict(set)
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
 -------------------------------
   - Password spraying is one of the most common attacks against
-    enterprise environments — it's how real breaches start
+    enterprise environments - it's how real breaches start
   - Traditional per-user rate limiting misses it because each user
     only sees 1-2 failures
   - Detection requires tracking failures across TWO dimensions
@@ -24,16 +24,16 @@ SPRAYING vs BRUTE FORCE:
   BRUTE FORCE:
     Same IP → Same user → Many passwords
     Example: 1000 login attempts for "admin" from 203.45.167.22
-    Detection: Count failures per (ip, user) — easy to catch
+    Detection: Count failures per (ip, user) - easy to catch
 
   PASSWORD SPRAYING:
     Same IP → Many users → Few passwords (often just 1-2 common ones)
     Example: Try "Password123" against admin, jsmith, developer, root...
-    Detection: Count UNIQUE USERS per (ip, hour) — the key insight
+    Detection: Count UNIQUE USERS per (ip, hour) - the key insight
 
   Why spraying evades basic defenses:
     - Per-user lockout: each user only sees 1-2 failures → no lockout
-    - Per-user rate limit: same — too few per user to trigger
+    - Per-user rate limit: same - too few per user to trigger
     - The attacker distributes attempts across many accounts
 
   What catches spraying:
@@ -41,23 +41,23 @@ SPRAYING vs BRUTE FORCE:
     - "Same IP hit 50 different usernames in one hour" → clearly automated
 
 
-TUPLE KEYS — TWO DIMENSIONS IN ONE DICT:
+TUPLE KEYS - TWO DIMENSIONS IN ONE DICT:
 -------------------------------------------
   Problem: track failures by BOTH ip AND hour simultaneously.
 
-  Approach 1 — Nested dicts (messy):
+  Approach 1 - Nested dicts (messy):
     data = {}
     if ip not in data:
         data[ip] = {}
     if hour not in data[ip]:
         data[ip][hour] = set()
     data[ip][hour].add(user)
-    # Access: data[ip][hour] — two levels of nesting
+    # Access: data[ip][hour] - two levels of nesting
 
-  Approach 2 — Tuple keys (clean):
+  Approach 2 - Tuple keys (clean):
     data = defaultdict(set)
     data[(ip, hour)].add(user)
-    # Access: data[(ip, hour)] — flat, one level
+    # Access: data[(ip, hour)] - flat, one level
 
   Both achieve the same result, but tuple keys are:
     - Less code (no nested initialization)
@@ -71,21 +71,21 @@ TUPLE KEYS — TWO DIMENSIONS IN ONE DICT:
     (api_key, date)         → track API usage per day
 
 
-defaultdict(set) — AUTO-DEDUPLICATING GROUPS:
+defaultdict(set) - AUTO-DEDUPLICATING GROUPS:
 ------------------------------------------------
   defaultdict(set) creates an empty set for new keys automatically.
 
   data = defaultdict(set)
   data[("203.45.167.22", "10")].add("admin")
   data[("203.45.167.22", "10")].add("jsmith")
-  data[("203.45.167.22", "10")].add("admin")    # duplicate — ignored!
+  data[("203.45.167.22", "10")].add("admin")    # duplicate - ignored!
 
   len(data[("203.45.167.22", "10")])  → 2 (admin + jsmith)
 
   vs defaultdict(list):
   data = defaultdict(list)
   data[("203.45.167.22", "10")].append("admin")
-  data[("203.45.167.22", "10")].append("admin")  # duplicate — kept!
+  data[("203.45.167.22", "10")].append("admin")  # duplicate - kept!
 
   len(data[("203.45.167.22", "10")])  → 2 (admin counted twice!)
 
@@ -95,7 +95,7 @@ defaultdict(set) — AUTO-DEDUPLICATING GROUPS:
 COMPROMISE DETECTION PATTERN:
 --------------------------------
   Spraying alone is concerning. Spraying followed by a successful login
-  is critical — it means the attacker found valid credentials.
+  is critical - it means the attacker found valid credentials.
 
   Detection:
     1. Identify spray IPs (many unique failed users)
@@ -106,7 +106,7 @@ COMPROMISE DETECTION PATTERN:
 
 ONE-LINE RECALLS:
 ------------------
-  Tuple key:    "(ip, hour) as dict key — track two dimensions in one flat dict"
+  Tuple key:    "(ip, hour) as dict key - track two dimensions in one flat dict"
   set vs list:  "set for unique counts (spraying), list for ordered data (timeline)"
   Spraying:     "Many unique users from one IP = spraying. Many attempts on one user = brute force"
   Compromise:   "Spray IP + successful login + user was in failed set = account compromised"
@@ -131,7 +131,7 @@ def detect_spraying(logs, unique_user_threshold=3):
     Returns:
         Dict with spray_alerts and compromised_accounts
     """
-    # Track unique failed usernames per (ip, hour) — tuple key with set
+    # Track unique failed usernames per (ip, hour) - tuple key with set
     failed_by_ip_hour = defaultdict(set)
 
     # Track all failed users per IP (for compromise detection)
@@ -187,7 +187,7 @@ def detect_spraying(logs, unique_user_threshold=3):
 
 if __name__ == "__main__":
     auth_logs = [
-        # === 203.45.167.22 — PASSWORD SPRAYING (hour 10) ===
+        # === 203.45.167.22 - PASSWORD SPRAYING (hour 10) ===
         # Same IP, 5 different users, rapid succession → classic spraying
         # Then succeeds on "root" → account compromised
         "2025-04-09 10:00:05 LOGIN_FAILED user=admin ip=203.45.167.22",
@@ -203,7 +203,7 @@ if __name__ == "__main__":
         # Attacker cracks root's password
         "2025-04-09 10:00:19 LOGIN_SUCCESS user=root ip=203.45.167.22",
 
-        # === 10.0.0.5 — BRUTE FORCE, NOT SPRAYING ===
+        # === 10.0.0.5 - BRUTE FORCE, NOT SPRAYING ===
         # Same IP, same user (alice), 3 failures → brute force on one account
         # Should NOT be flagged as spraying (only 1 unique user)
         "2025-04-09 10:00:30 LOGIN_FAILED user=alice ip=10.0.0.5",
@@ -211,13 +211,13 @@ if __name__ == "__main__":
         "2025-04-09 10:00:32 LOGIN_FAILED user=alice ip=10.0.0.5",
         "2025-04-09 10:00:33 LOGIN_SUCCESS user=alice ip=10.0.0.5",
 
-        # === 203.45.167.22 — CONTINUED SPRAYING (hour 11) ===
+        # === 203.45.167.22 - CONTINUED SPRAYING (hour 11) ===
         # Same attacker IP, new hour, targeting 3 users → still spraying
         "2025-04-09 11:00:05 LOGIN_FAILED user=admin ip=203.45.167.22",
         "2025-04-09 11:00:06 LOGIN_FAILED user=jsmith ip=203.45.167.22",
         "2025-04-09 11:00:07 LOGIN_FAILED user=developer ip=203.45.167.22",
 
-        # === 172.16.0.50 — NORMAL USERS ===
+        # === 172.16.0.50 - NORMAL USERS ===
         # Legitimate logins, no failures → completely normal
         "2025-04-09 12:15:00 LOGIN_SUCCESS user=jsmith ip=172.16.0.50",
         "2025-04-09 12:15:05 LOGIN_SUCCESS user=developer ip=172.16.0.50",
@@ -254,12 +254,12 @@ if __name__ == "__main__":
 
     # Expected output:
     # SPRAY ALERTS:
-    #   203.45.167.22 hour 10 — 5 unique users (admin, developer, jsmith, root, test)
-    #   203.45.167.22 hour 11 — 3 unique users (admin, developer, jsmith)
+    #   203.45.167.22 hour 10 - 5 unique users (admin, developer, jsmith, root, test)
+    #   203.45.167.22 hour 11 - 3 unique users (admin, developer, jsmith)
     #
     # COMPROMISED:
     #   root from 203.45.167.22 at 10:00:19
     #
     # NOT flagged:
-    #   10.0.0.5 — only targeted alice (1 user = brute force, not spraying)
-    #   172.16.0.50 — only successes, no failures
+    #   10.0.0.5 - only targeted alice (1 user = brute force, not spraying)
+    #   172.16.0.50 - only successes, no failures

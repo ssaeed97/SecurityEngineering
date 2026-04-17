@@ -1,14 +1,14 @@
 """
-LARGE NUMBER ADDITION — Add Two Numbers Stored as Strings
+LARGE NUMBER ADDITION - Add Two Numbers Stored as Strings
 
 =====================================================================
-REFERENCE NOTES — Two Pointers, Carry Arithmetic, String Manipulation
+REFERENCE NOTES - Two Pointers, Carry Arithmetic, String Manipulation
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
 -------------------------------
   - Tests fundamental understanding of how arithmetic works at the
-    lowest level — important for understanding overflow vulnerabilities
+    lowest level - important for understanding overflow vulnerabilities
   - Integer overflow is a real security vulnerability: buffer overflows,
     integer wraparound attacks, incorrect size calculations
   - Same two-pointer pattern used in: comparing log timestamps,
@@ -19,7 +19,7 @@ WHY THIS MATTERS FOR SE WORK:
 
 WHY NOT JUST USE int()?
 --------------------------
-  In Python, int() handles arbitrary precision — no overflow.
+  In Python, int() handles arbitrary precision - no overflow.
   But the interviewer wants to see you implement the logic because:
 
   1. Many languages (C, Java, Go) DO overflow at 32/64 bits
@@ -32,7 +32,7 @@ WHY NOT JUST USE int()?
   but I'll implement the manual approach to show the algorithm."
 
 
-THE ALGORITHM — GRADE SCHOOL ADDITION:
+THE ALGORITHM - GRADE SCHOOL ADDITION:
 -----------------------------------------
       9 9 9
     + 0 0 1
@@ -79,7 +79,7 @@ THE "or carry" CONDITION:
   while i >= 0 or j >= 0 or carry:
 
   Without "or carry":
-    "999" + "1" would give "000" — the final carry is lost!
+    "999" + "1" would give "000" - the final carry is lost!
 
   The loop must continue even after both numbers are exhausted
   if there's still a carry to write.
@@ -89,7 +89,7 @@ ONE-LINE RECALLS:
 ------------------
   Algorithm:    "Two pointers from the right, add digits + carry,
                  // 10 for new carry, % 10 for digit to write"
-  or carry:     "Keep looping while carry remains — without it,
+  or carry:     "Keep looping while carry remains - without it,
                  '999' + '1' loses the leading 1"
   Different lengths: "When pointer < 0, treat digit as 0"
   Build result: "Append digits right-to-left, reverse at the end"
@@ -132,7 +132,7 @@ def add_strings(num1, num2):
 def add_strings_builtin(num1, num2):
     """
     Python's built-in approach for comparison.
-    Python handles arbitrary precision natively — no overflow.
+    Python handles arbitrary precision natively - no overflow.
     In an interview, mention this exists but implement manually.
     """
     return str(int(num1) + int(num2))
@@ -176,5 +176,5 @@ if __name__ == "__main__":
     print(f"  64-bit max:  {2**63 - 1}")
     print(f"  Our result:  {add_strings('9999999999999999999999999999', '1')}")
     print(f"  Python handles this natively, but C/Java/Go would overflow.")
-    print(f"  Integer overflow is a real vulnerability class — buffer sizes,")
+    print(f"  Integer overflow is a real vulnerability class - buffer sizes,")
     print(f"  length calculations, and financial computations can all go wrong.")
