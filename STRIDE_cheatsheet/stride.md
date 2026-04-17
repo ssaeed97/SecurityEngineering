@@ -1,6 +1,6 @@
 # STRIDE Threat Modeling — Cheat Sheet & Practice Scenarios
 
-> Quick reference for STRIDE threat modeling in security engineer interviews. Includes differentiation guide, structured methodology, and four complete worked scenarios.
+> Quick reference for STRIDE threat modeling in security engineering. Includes differentiation guide, structured methodology, and four complete worked scenarios.
 
 ---
 

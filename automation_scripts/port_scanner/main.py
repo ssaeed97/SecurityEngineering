@@ -1,6 +1,5 @@
 """
 TCP PORT SCANNER — Network Reconnaissance Tool
-Security Engineer Interview Practice Problem #3
 
 =====================================================================
 REFERENCE NOTES — Sockets, argparse, Error Handling, Networking

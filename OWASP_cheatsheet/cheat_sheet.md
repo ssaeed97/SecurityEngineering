@@ -1,4 +1,4 @@
-# Security Engineer Interview Prep — Application Security Reference Guide
+# Security Engineering — Application Security Reference Guide
 
 ![OWASP](https://img.shields.io/badge/Reference-OWASP%20Top%2010%202025-000000?logo=owasp&logoColor=white)
 ![AppSec](https://img.shields.io/badge/Focus-Application%20Security-red)

@@ -1,6 +1,6 @@
 # Python Scripting Cheat Sheet — Security Engineer Coding Problems
 
-> Quick reference for solving coding problems in SE interviews. Follow: Input → Parse → Process → Output. When stuck, find your problem type below and use the pattern.
+> Quick reference for solving coding problems in Security Engineering. Follow: Input → Parse → Process → Output. When stuck, find your problem type below and use the pattern.
 
 ---
 
