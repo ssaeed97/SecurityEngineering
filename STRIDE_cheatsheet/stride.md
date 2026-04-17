@@ -1,5 +1,10 @@
 # STRIDE Threat Modeling — Cheat Sheet & Practice Scenarios
 
+![STRIDE](https://img.shields.io/badge/Threat%20Modeling-STRIDE-orange)
+![Methodology](https://img.shields.io/badge/Structure-Interview%20Methodology-blue)
+![Scenarios](https://img.shields.io/badge/Worked%20Scenarios-4-red)
+![Security Engineering](https://img.shields.io/badge/Focus-Security%20Engineering-red)
+
 > Quick reference for STRIDE threat modeling in security engineering. Includes differentiation guide, structured methodology, and four complete worked scenarios.
 
 ---

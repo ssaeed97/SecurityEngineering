@@ -1,5 +1,10 @@
 # Python Scripting Cheat Sheet — Security Engineer Coding Problems
 
+![Python](https://img.shields.io/badge/Language-Python-3776AB?logo=python&logoColor=white)
+![Patterns](https://img.shields.io/badge/Patterns-13%20Security%20Themed-blue)
+![Data Structures](https://img.shields.io/badge/Reference-Data%20Structures-7B42BC)
+![Security Engineering](https://img.shields.io/badge/Focus-Security%20Engineering-red)
+
 > Quick reference for solving coding problems in Security Engineering. Follow: Input → Parse → Process → Output. When stuck, find your problem type below and use the pattern.
 
 ---

@@ -1,6 +1,5 @@
 """
 BINARY SEARCH for NEAREST ELEMENT — Find Target or Nearest Number
-Security Engineer Coding Practice Problem #6
 
 =====================================================================
 REFERENCE NOTES — Binary Search, Sorted Lists, O(log n) Efficiency
