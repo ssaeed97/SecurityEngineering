@@ -1,4 +1,4 @@
-# Python Scripting Cheat Sheet — Security Engineer Coding Problems
+# Python Scripting Cheat Sheet - Security Engineer Coding Problems
 
 ![Python](https://img.shields.io/badge/Language-Python-3776AB?logo=python&logoColor=white)
 ![Patterns](https://img.shields.io/badge/Patterns-13%20Security%20Themed-blue)
@@ -12,8 +12,8 @@
 ## Table of Contents
 
 - [Problem-Solving Framework](#problem-solving-framework)
-- [Data Structures — When to Use What](#data-structures--when-to-use-what)
-- [Pattern Library — Find Your Problem Type](#pattern-library--find-your-problem-type)
+- [Data Structures - When to Use What](#data-structures--when-to-use-what)
+- [Pattern Library - Find Your Problem Type](#pattern-library--find-your-problem-type)
 - [Parsing Techniques](#parsing-techniques)
 - [Python Built-ins You Need](#python-built-ins-you-need)
 - [Common Gotchas](#common-gotchas)
@@ -49,9 +49,9 @@ For every coding problem, answer these four questions in order:
 
 ---
 
-## Data Structures — When to Use What
+## Data Structures - When to Use What
 
-### list — Ordered, Allows Duplicates
+### list - Ordered, Allows Duplicates
 
 ```python
 items = []
@@ -65,7 +65,7 @@ sorted(items)                # new sorted list (original unchanged)
 
 **Use when:** order matters, collecting results, building output.
 
-### dict — Key-Value Pairs, O(1) Lookup
+### dict - Key-Value Pairs, O(1) Lookup
 
 ```python
 data = {}
@@ -81,12 +81,12 @@ for key in data:                         # iterate keys only
 **Use when:** need fast lookup by key, building structured records.
 **Critical:** `.get(key, default)` is safe. `data[key]` crashes on missing keys.
 
-### set — Unique Items, O(1) Membership Check
+### set - Unique Items, O(1) Membership Check
 
 ```python
 seen = set()
 seen.add("admin")           # add item (duplicates ignored)
-"admin" in seen              # O(1) check — instant
+"admin" in seen              # O(1) check - instant
 len(seen)                    # count of unique items
 
 # Set operations
@@ -97,7 +97,7 @@ a | b                        # union: everything
 
 **Use when:** need unique items, fast membership checking, comparing groups.
 
-### Counter — Count Occurrences, Get Top N
+### Counter - Count Occurrences, Get Top N
 
 ```python
 from collections import Counter
@@ -111,7 +111,7 @@ counts["a"]                  # access count directly: 3
 
 **Use when:** "find the most common X", "count occurrences", "rank by frequency".
 
-### defaultdict — Auto-Creating Values
+### defaultdict - Auto-Creating Values
 
 ```python
 from collections import defaultdict
@@ -131,12 +131,12 @@ counts["admin"] += 1                 # starts at 0, no KeyError
 
 **Use when:** grouping items by category, counting without checking if key exists.
 
-### Tuple Keys — Track Two Dimensions
+### Tuple Keys - Track Two Dimensions
 
 ```python
 from collections import defaultdict
 
-# Track unique users per (ip, hour) — two dimensions, one dict
+# Track unique users per (ip, hour) - two dimensions, one dict
 tracker = defaultdict(set)
 tracker[("203.45.167.22", "10")].add("admin")
 tracker[("203.45.167.22", "10")].add("jsmith")
@@ -151,7 +151,7 @@ len(tracker[("203.45.167.22", "10")])   # 2 unique users from this IP in hour 10
 
 **Use when:** need to track something across two dimensions simultaneously.
 
-### Stack — Last In, First Out (LIFO)
+### Stack - Last In, First Out (LIFO)
 
 ```python
 stack = []
@@ -165,7 +165,7 @@ len(stack) == 0              # check if empty
 
 ---
 
-## Pattern Library — Find Your Problem Type
+## Pattern Library - Find Your Problem Type
 
 ### Pattern 1: "Find the Top N Most Common X"
 
@@ -201,12 +201,12 @@ for item in items:
 ```python
 from collections import defaultdict
 
-# Step 1: Index one source by key — O(m)
+# Step 1: Index one source by key - O(m)
 index = defaultdict(list)
 for item in source_a:
     index[item["ip"]].append(item)
 
-# Step 2: Walk other source, look up — O(n), each lookup O(1)
+# Step 2: Walk other source, look up - O(n), each lookup O(1)
 for item in source_b:
     matches = index[item["ip"]]     # O(1) lookup
     # Process matches...
@@ -435,7 +435,7 @@ def add_strings(num1, num2):
 
 ## Parsing Techniques
 
-### Split — The Default Parser
+### Split - The Default Parser
 
 ```python
 line = "2025-04-09 10:15:32 192.168.1.100 GET /api/users 200"
@@ -444,14 +444,14 @@ parts = line.split()
 
 # Split on specific delimiter
 "user=admin".split("=")          # ['user', 'admin']
-"user=admin".split("=", 1)       # ['user', 'admin'] — maxsplit for safety
+"user=admin".split("=", 1)       # ['user', 'admin'] - maxsplit for safety
 
 # Split with maxsplit (preserves rest)
 "arn:aws:s3:::my-bucket/data/*".split(":", 5)
 # ['arn', 'aws', 's3', '', '', 'my-bucket/data/*']
 ```
 
-### Regex — When Split Isn't Enough
+### Regex - When Split Isn't Enough
 
 ```python
 import re
@@ -472,7 +472,7 @@ method = match.group(2)
 # (?:...)?      non-capturing optional group
 ```
 
-### JSON — Structured Data
+### JSON - Structured Data
 
 ```python
 import json
@@ -552,16 +552,16 @@ def decode_jwt_part(part):
 ### sorted() vs .sort()
 
 ```python
-# sorted() — returns NEW list, original unchanged
+# sorted() - returns NEW list, original unchanged
 result = sorted(data, key=lambda x: x[1], reverse=True)
 
-# .sort() — modifies ORIGINAL, returns None
+# .sort() - modifies ORIGINAL, returns None
 data.sort(key=lambda x: x[0])
 
-# Use sorted() by default — safer
+# Use sorted() by default - safer
 ```
 
-### lambda — Inline Functions for key=
+### lambda - Inline Functions for key=
 
 ```python
 # Sort by second element
@@ -578,7 +578,7 @@ max(items, key=lambda x: x[1])
 min(events, key=lambda x: x["timestamp"])
 ```
 
-### enumerate() — Index + Value
+### enumerate() - Index + Value
 
 ```python
 for i, item in enumerate(my_list):
@@ -588,7 +588,7 @@ for i, line in enumerate(lines, start=1):   # start counting from 1
     print(f"Line {i}: {line}")
 ```
 
-### List Comprehensions — Filter and Transform
+### List Comprehensions - Filter and Transform
 
 ```python
 # Filter
@@ -669,13 +669,13 @@ n << 1                       # multiply by 2
 ### 1. Variable Inside Loop (The #1 Bug)
 
 ```python
-# WRONG — resets every iteration
+# WRONG - resets every iteration
 for line in logs:
     results = []             # ← inside loop!
     results.append(parse(line))
 # results only has last item
 
-# RIGHT — persists across iterations
+# RIGHT - persists across iterations
 results = []                 # ← outside loop!
 for line in logs:
     results.append(parse(line))
@@ -684,11 +684,11 @@ for line in logs:
 ### 2. Forgetting Counter for "Most Common"
 
 ```python
-# WRONG — extracts but doesn't count
+# WRONG - extracts but doesn't count
 ips = [line.split()[0] for line in logs]
 print(ips)  # just a flat list
 
-# RIGHT — count and rank
+# RIGHT - count and rank
 from collections import Counter
 ips = [line.split()[0] for line in logs]
 print(Counter(ips).most_common(5))
@@ -700,17 +700,17 @@ print(Counter(ips).most_common(5))
 # CRASHES if key missing
 if data["role"] == "admin":
 
-# SAFE — returns None/default
+# SAFE - returns None/default
 if data.get("role") == "admin":
 ```
 
 ### 4. ASCII Math for Bracket Matching
 
 ```python
-# WRONG — ] and } aren't adjacent to [ and { in ASCII
+# WRONG - ] and } aren't adjacent to [ and { in ASCII
 if stack[-1] == chr(ord(char) - 1):
 
-# RIGHT — use a mapping dict
+# RIGHT - use a mapping dict
 matches = {")": "(", "]": "[", "}": "{"}
 if stack[-1] == matches[char]:
 ```
@@ -718,22 +718,22 @@ if stack[-1] == matches[char]:
 ### 5. Forgetting "or carry" in Addition
 
 ```python
-# WRONG — loses the final carry
+# WRONG - loses the final carry
 while i >= 0 or j >= 0:
 
-# RIGHT — keeps going if carry remains
+# RIGHT - keeps going if carry remains
 while i >= 0 or j >= 0 or carry:
 ```
 
 ### 6. Modifying List While Iterating
 
 ```python
-# WRONG — unpredictable behavior
+# WRONG - unpredictable behavior
 for item in my_list:
     if condition:
         my_list.remove(item)
 
-# RIGHT — build a new list
+# RIGHT - build a new list
 my_list = [item for item in my_list if not condition]
 ```
 
@@ -757,15 +757,15 @@ if len(data) == 1:    # single element
 | Group by category | `defaultdict(list)`, key = category, append items |
 | Unique items | `set()` with `.add()` |
 | Two dimensions | Tuple key `(ip, hour)` in `defaultdict(set)` |
-| Correlate two sources | Index one in dict, walk the other — O(n+m) |
+| Correlate two sources | Index one in dict, walk the other - O(n+m) |
 | Time window detection | Sort timestamps, sliding window with two pointers |
 | Overlap/merge | Sort by start, merge if `next_start <= current_end` |
-| Sorted data search | Binary search — cut in half each step, O(log n) |
-| Match open/close | Stack — push openers, pop on matching closer |
+| Sorted data search | Binary search - cut in half each step, O(log n) |
+| Match open/close | Stack - push openers, pop on matching closer |
 | Digit arithmetic | Two pointers from right, `// 10` for carry, `% 10` for digit |
 | Flood fill / islands | DFS from each unvisited cell, mark visited by setting to 0 |
 | Tiered detection | Set for tier 1, conditionals for tier 2, Counter for tier 3 |
-| Safe dict access | `.get(key, default)` — never crashes on missing keys |
+| Safe dict access | `.get(key, default)` - never crashes on missing keys |
 | Sort by custom field | `sorted(data, key=lambda x: x[field])` |
 | Parse timestamps | `datetime.strptime()` then `.timestamp()` for math |
 
@@ -773,12 +773,12 @@ if len(data) == 1:    # single element
 
 ## Interview Approach Reminders
 
-1. **Talk through your approach BEFORE coding** — "I'll parse each line, group by IP using a defaultdict, then use Counter to find the top offenders"
-2. **Start simple, then iterate** — get a working version first, then add edge cases and improvements
-3. **Name your variables clearly** — `failed_ips` not `x`, `login_attempts` not `data`
-4. **Handle edge cases** — empty input, missing fields, single element
-5. **Know your complexity** — "This is O(n) because I make one pass through the data"
-6. **Offer improvements** — "In production I'd add rate limiting / threading / caching"
+1. **Talk through your approach BEFORE coding** - "I'll parse each line, group by IP using a defaultdict, then use Counter to find the top offenders"
+2. **Start simple, then iterate** - get a working version first, then add edge cases and improvements
+3. **Name your variables clearly** - `failed_ips` not `x`, `login_attempts` not `data`
+4. **Handle edge cases** - empty input, missing fields, single element
+5. **Know your complexity** - "This is O(n) because I make one pass through the data"
+6. **Offer improvements** - "In production I'd add rate limiting / threading / caching"
 
 ---
 
@@ -788,4 +788,4 @@ This reference guide is a living document. Contributions, corrections, and addit
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

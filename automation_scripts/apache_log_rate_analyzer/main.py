@@ -1,8 +1,8 @@
 """
-APACHE LOG RATE ANALYZER — Sliding Window IP Rate Detection
+APACHE LOG RATE ANALYZER - Sliding Window IP Rate Detection
 
 =====================================================================
-REFERENCE NOTES — Apache Log Parsing, Sliding Window, Timestamp Math
+REFERENCE NOTES - Apache Log Parsing, Sliding Window, Timestamp Math
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -50,7 +50,7 @@ ONE-LINE RECALLS:
   Apache timestamp:  "split()[3] then strptime with [%d/%b/%Y:%H:%M:%S"
   Sliding window:    "Sort, two pointers, right always advances, left
                       advances when window too wide, count = right-left+1"
-  defaultdict(list): "Auto-creates empty list for new keys — perfect
+  defaultdict(list): "Auto-creates empty list for new keys - perfect
                       for grouping timestamps by IP"
 
 =====================================================================
@@ -153,8 +153,8 @@ def analyze_logs(filepath, threshold=10, window_seconds=10):
 if __name__ == "__main__":
     # Inline test data covering multiple scenarios
     test_logs = [
-        # === 203.45.167.22 — HIGH RATE: 14 requests in ~7 seconds ===
-        # Hammering /admin/login — classic brute force pattern
+        # === 203.45.167.22 - HIGH RATE: 14 requests in ~7 seconds ===
+        # Hammering /admin/login - classic brute force pattern
         '203.45.167.22 - - [24/Mar/2025:10:15:32 +0000] "GET /admin/login HTTP/1.1" 401 512 "-" "Mozilla/5.0"',
         '203.45.167.22 - - [24/Mar/2025:10:15:33 +0000] "GET /admin/login HTTP/1.1" 401 512 "-" "Mozilla/5.0"',
         '203.45.167.22 - - [24/Mar/2025:10:15:34 +0000] "GET /admin/login HTTP/1.1" 401 512 "-" "Mozilla/5.0"',
@@ -170,16 +170,16 @@ if __name__ == "__main__":
         '203.45.167.22 - - [24/Mar/2025:10:15:39 +0000] "GET /admin/login HTTP/1.1" 401 512 "-" "Mozilla/5.0"',
         '203.45.167.22 - - [24/Mar/2025:10:15:39 +0000] "GET /admin/login HTTP/1.1" 401 512 "-" "Mozilla/5.0"',
 
-        # === 10.0.0.1 — SUSPICIOUS BUT BELOW THRESHOLD ===
-        # Directory traversal attempts — only 2 requests
+        # === 10.0.0.1 - SUSPICIOUS BUT BELOW THRESHOLD ===
+        # Directory traversal attempts - only 2 requests
         '10.0.0.1 - - [24/Mar/2025:10:15:34 +0000] "GET /../../etc/passwd HTTP/1.1" 403 256 "-" "python-requests/2.28"',
         '10.0.0.1 - - [24/Mar/2025:10:15:38 +0000] "GET /api/../../../etc/shadow HTTP/1.1" 403 256 "-" "python-requests/2.28"',
 
-        # === 192.168.1.50 — NORMAL USER ===
+        # === 192.168.1.50 - NORMAL USER ===
         # Single legitimate API request
         '192.168.1.50 - admin [24/Mar/2025:10:15:33 +0000] "POST /api/users HTTP/1.1" 200 1024 "https://example.com" "curl/7.68.0"',
 
-        # === 172.16.0.100 — NORMAL USER ===
+        # === 172.16.0.100 - NORMAL USER ===
         # Single page view
         '172.16.0.100 - - [24/Mar/2025:10:15:36 +0000] "GET /index.html HTTP/1.1" 200 2048 "-" "Mozilla/5.0"',
     ]
@@ -204,9 +204,9 @@ if __name__ == "__main__":
         print(f"  {ip}: max {count} requests in any 10s window [{status}]")
 
     # Expected output:
-    # FLAGGED: 203.45.167.22 — 14 requests in window (brute force)
+    # FLAGGED: 203.45.167.22 - 14 requests in window (brute force)
     #
     # NOT flagged:
-    #   10.0.0.1     — 2 requests (suspicious content but low volume)
-    #   192.168.1.50 — 1 request (normal user)
-    #   172.16.0.100 — 1 request (normal user)
+    #   10.0.0.1     - 2 requests (suspicious content but low volume)
+    #   192.168.1.50 - 1 request (normal user)
+    #   172.16.0.100 - 1 request (normal user)

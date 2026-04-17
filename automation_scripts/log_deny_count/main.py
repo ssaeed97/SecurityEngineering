@@ -1,11 +1,11 @@
 """
-FIREWALL LOG PARSER — Top Denied IPs
+FIREWALL LOG PARSER - Top Denied IPs
 
 =====================================================================
-REFERENCE NOTES — Data Structures, Counter, Sorting
+REFERENCE NOTES - Data Structures, Counter, Sorting
 =====================================================================
 
-DATA STRUCTURES — WHEN TO USE WHAT:
+DATA STRUCTURES - WHEN TO USE WHAT:
 -----------------------------------
   list    → ordered, allows duplicates. Use when order matters.
             Example: collecting log entries in sequence.
@@ -36,7 +36,7 @@ COUNTER (from collections):
   It's just a dict subclass, so you can do counts["apple"] → 3
 
 
-.get(key, default) — SAFE DICT LOOKUP:
+.get(key, default) - SAFE DICT LOOKUP:
 ----------------------------------------
   Normal lookup crashes if key missing:
     d = {}
@@ -50,7 +50,7 @@ COUNTER (from collections):
   The second argument is the default: 0 for counting, [] for lists, "" for strings.
 
 
-LAMBDA — INLINE MINI FUNCTION:
+LAMBDA - INLINE MINI FUNCTION:
 -------------------------------
   lambda x: x[1]   means   "take x, return x[1]"
 
@@ -80,10 +80,10 @@ SORTING A DICT BY VALUES:
 
 ONE-LINE RECALLS:
 ------------------
-  Counter:  "Counter counts, most_common sorts — pass it a list, get ranked results"
-  .get():   ".get(key, default) is a safe dict lookup — returns default instead of crashing"
-  lambda:   "lambda x: what_to_return — an inline function, used with sorted(key=)"
-  Sorting:  "sorted(dict.items(), key=lambda x: x[1], reverse=True) — sort dict by values"
+  Counter:  "Counter counts, most_common sorts - pass it a list, get ranked results"
+  .get():   ".get(key, default) is a safe dict lookup - returns default instead of crashing"
+  lambda:   "lambda x: what_to_return - an inline function, used with sorted(key=)"
+  Sorting:  "sorted(dict.items(), key=lambda x: x[1], reverse=True) - sort dict by values"
 
 =====================================================================
 """

@@ -1,9 +1,9 @@
 """
-THREAT INTEL API CLIENT — API Calls with requests + Unit Tests
+THREAT INTEL API CLIENT - API Calls with requests + Unit Tests
 Security Engineer Coding Practice Problem #9
 
 =====================================================================
-REFERENCE NOTES — requests, Error Handling, unittest, Mocking
+REFERENCE NOTES - requests, Error Handling, unittest, Mocking
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -16,7 +16,7 @@ WHY THIS MATTERS FOR SE WORK:
     that doesn't break when external services are unavailable
 
 
-requests LIBRARY — MAKING API CALLS:
+requests LIBRARY - MAKING API CALLS:
 ---------------------------------------
   import requests
 
@@ -42,7 +42,7 @@ FIVE THINGS THAT CAN GO WRONG:
   4. Timeout               → API didn't respond in time
   5. Connection failure    → API is unreachable (DNS, network, etc.)
 
-  Your function must handle ALL five gracefully — never crash.
+  Your function must handle ALL five gracefully - never crash.
 
 
 .get() vs [] FOR DICT ACCESS:
@@ -50,13 +50,13 @@ FIVE THINGS THAT CAN GO WRONG:
   data["malicious"]              → crashes with KeyError if missing
   data.get("malicious", False)   → returns False if missing, no crash
 
-  ALWAYS use .get() when parsing API responses — you can't trust
+  ALWAYS use .get() when parsing API responses - you can't trust
   that external APIs will always return every field.
 
 
-MOCKING — TESTING WITHOUT REAL API CALLS:
+MOCKING - TESTING WITHOUT REAL API CALLS:
 -------------------------------------------
-  In tests, you NEVER call the real API. You mock it — replace
+  In tests, you NEVER call the real API. You mock it - replace
   requests.get with a fake that returns whatever you want.
 
   from unittest.mock import patch, Mock
@@ -85,13 +85,13 @@ unittest ASSERTIONS:
 
 ONE-LINE RECALLS:
 ------------------
-  requests:   "requests.get(url, params, timeout) — params become query
+  requests:   "requests.get(url, params, timeout) - params become query
                string, timeout prevents hanging"
-  Error handling: "try/except for Timeout and ConnectionError — handle
+  Error handling: "try/except for Timeout and ConnectionError - handle
                    every failure mode, never crash"
-  Mocking:    "@patch('requests.get') replaces real API with fake —
+  Mocking:    "@patch('requests.get') replaces real API with fake -
                return_value for responses, side_effect for exceptions"
-  .get():     "dict.get(key, default) is safe — returns default instead
+  .get():     "dict.get(key, default) is safe - returns default instead
                of crashing on missing keys"
 
 =====================================================================
@@ -166,7 +166,7 @@ def check_multiple_ips(ip_list, timeout=5):
 
 
 # =====================================================================
-# UNIT TESTS — Run with: python -m unittest main.py -v
+# UNIT TESTS - Run with: python -m unittest main.py -v
 # =====================================================================
 
 class TestCheckIP(unittest.TestCase):
@@ -309,7 +309,7 @@ class TestCheckMultipleIPs(unittest.TestCase):
 
 
 # =====================================================================
-# DEMO — Run directly to see example output
+# DEMO - Run directly to see example output
 # =====================================================================
 
 if __name__ == "__main__":
@@ -334,9 +334,9 @@ if __name__ == "__main__":
     if results["malicious_ips"]:
         print("\n  Malicious IPs:")
         for r in results["malicious_ips"]:
-            print(f"    {r['ip']} — {r['threat_type']} (confidence: {r['confidence']})")
+            print(f"    {r['ip']} - {r['threat_type']} (confidence: {r['confidence']})")
 
     if results["errors"]:
         print("\n  Errors:")
         for r in results["errors"]:
-            print(f"    {r['ip']} — {r['status']}")
+            print(f"    {r['ip']} - {r['status']}")

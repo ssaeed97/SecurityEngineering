@@ -1,5 +1,5 @@
 """
-PORT SCAN DETECTOR — Network Log Analyzer
+PORT SCAN DETECTOR - Network Log Analyzer
 Security Engineer Practice Problem
 
 =====================================================================
@@ -29,7 +29,7 @@ In the example above:
 Output the flagged source IPs.
 
 =====================================================================
-REFERENCE NOTES — Tuple Keys, Sets, Tracking Pairs
+REFERENCE NOTES - Tuple Keys, Sets, Tracking Pairs
 =====================================================================
 
 CLARIFYING QUESTIONS TO ASK (and design choices based on answers):
@@ -38,8 +38,8 @@ CLARIFYING QUESTIONS TO ASK (and design choices based on answers):
   ABOUT THE DATA:
 
   Q: "How big is the file?"
-     → Small (hourly rotation): f.read().splitlines() — load all into memory
-     → Huge (days of logs):     for line in f: — process line by line
+     → Small (hourly rotation): f.read().splitlines() - load all into memory
+     → Huge (days of logs):     for line in f: - process line by line
 
   Q: "Is the log format consistent, or could there be malformed lines?"
      → Consistent:   split() directly, no validation needed
@@ -50,8 +50,8 @@ CLARIFYING QUESTIONS TO ASK (and design choices based on answers):
      → IPv6 too:   need rsplit(":", 1) because IPv6 has multiple colons
                     e.g., "2001:db8::1:8080" → rsplit(":", 1) gives ["2001:db8::1", "8080"]
 
-  Q: "Could there be duplicate entries — same connection logged twice?"
-     → Yes: set() already handles this — duplicates are ignored automatically
+  Q: "Could there be duplicate entries - same connection logged twice?"
+     → Yes: set() already handles this - duplicates are ignored automatically
      → No:  set() still works, just no duplicates to filter
 
   ABOUT THE DETECTION LOGIC:
@@ -59,14 +59,14 @@ CLARIFYING QUESTIONS TO ASK (and design choices based on answers):
   Q: "Is the threshold strictly greater than 3, or 3 and above?"
      → Greater than 3:     if len(ports) > threshold
      → 3 and above:        if len(ports) >= threshold
-     Always clarify — off-by-one errors lose you points
+     Always clarify - off-by-one errors lose you points
 
-  Q: "Do we care about time windows — 3 ports in 1 minute vs 24 hours?"
+  Q: "Do we care about time windows - 3 ports in 1 minute vs 24 hours?"
      → No time window:  simple dict tracking (current solution)
      → Yes time window: store timestamps with each port, filter by window
                         e.g., tracker[pair] = [(port, timestamp), ...]
                         then count unique ports within the last N minutes
-     This is a STRONG question — shows you understand that 3 ports over
+     This is a STRONG question - shows you understand that 3 ports over
      24 hours is normal, but 3 ports in 10 seconds is a scan.
 
   Q: "Should I flag just the source IP, or also report the destination and ports?"
@@ -81,7 +81,7 @@ CLARIFYING QUESTIONS TO ASK (and design choices based on answers):
      → Live stream: need a sliding window, periodic cleanup of old data,
                     possibly using a queue or time-bucketed dict
 
-  Q: "What should happen with the output — print, file, or alert?"
+  Q: "What should happen with the output - print, file, or alert?"
      → Print:  current solution
      → File:   write results to output file
      → Alert:  integrate with SIEM/alerting system
@@ -121,7 +121,7 @@ WHY WE TRACK PER (SRC, DST) PAIR:
     10.0.0.6:443, 10.0.0.6:80        → 2 ports on 10.0.0.6
 
   Total unique ports = 4, but per-destination it's only 2 each.
-  That's NOT port scanning — it's normal traffic to two servers.
+  That's NOT port scanning - it's normal traffic to two servers.
 
   But if 10.10.10.10 connects to:
     10.0.0.5:22, 10.0.0.5:23, 10.0.0.5:25, 10.0.0.5:80, 10.0.0.5:443
@@ -144,9 +144,9 @@ FILE READING METHODS:
   for line in f:                        # "line one\n" then "line two\n" ...
       line = line.strip()               # need .strip() to remove \n
 
-  DEFAULT TO: f.read().splitlines() — cleanest, no \n to deal with.
+  DEFAULT TO: f.read().splitlines() - cleanest, no \n to deal with.
 
-  ALWAYS use "with open()" — it auto-closes the file even if an error occurs:
+  ALWAYS use "with open()" - it auto-closes the file even if an error occurs:
     with open("file.txt", "r") as f:    # "r" = read, "w" = write, "a" = append
         lines = f.read().splitlines()
 
@@ -160,8 +160,8 @@ SET FOR UNIQUE COUNTING:
 
 ONE-LINE RECALLS:
 ------------------
-  Tuple as key:  "Tuples are immutable so they can be dict keys — use (src, dst) to track pairs"
-  set():         "set() for blank set, NOT {} — that's a dict"
+  Tuple as key:  "Tuples are immutable so they can be dict keys - use (src, dst) to track pairs"
+  set():         "set() for blank set, NOT {} - that's a dict"
   This problem:  "Track unique dst_ports per (src_ip, dst_ip) pair, flag if count > threshold"
 
 =====================================================================

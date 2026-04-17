@@ -1,4 +1,4 @@
-# Security Engineer — Coding Prep
+# Security Engineer - Coding Prep
 
 ![Python](https://img.shields.io/badge/Language-Python-3776AB?logo=python&logoColor=white)
 ![Log Analysis](https://img.shields.io/badge/Security-Log%20Analysis-red)
@@ -13,7 +13,7 @@ Practice problems for **SE-level coding**.
 
 Hands-on coding prep for day-to-day security engineering tasks. Each folder contains a security-themed Python problem, the solution, and reference notes on the concepts used.
 
-The coding bar for SE is **not LeetCode** — it's practical scripting: parsing logs, detecting attacks, analyzing data, automating security tasks. These problems target exactly that.
+The coding bar for SE is **not LeetCode** - it's practical scripting: parsing logs, detecting attacks, analyzing data, automating security tasks. These problems target exactly that.
 
 ---
 
@@ -60,4 +60,4 @@ This is a living reference. Contributions, corrections, and new problems are wel
 
 ## License
 
-MIT License — see the [LICENSE](../LICENSE) file for details.
+MIT License - see the [LICENSE](../LICENSE) file for details.

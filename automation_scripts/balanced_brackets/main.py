@@ -1,8 +1,8 @@
 """
-BALANCED BRACKETS — Stack-Based Bracket Validator
+BALANCED BRACKETS - Stack-Based Bracket Validator
 
 =====================================================================
-REFERENCE NOTES — Stacks, String Processing, Dict Mapping
+REFERENCE NOTES - Stacks, String Processing, Dict Mapping
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -15,9 +15,9 @@ WHY THIS MATTERS FOR SE WORK:
   - Shows understanding of data structures beyond just lists and dicts
 
 
-STACK — LAST IN, FIRST OUT (LIFO):
+STACK - LAST IN, FIRST OUT (LIFO):
 -------------------------------------
-  A stack is like a stack of plates — you can only add to the top
+  A stack is like a stack of plates - you can only add to the top
   and remove from the top. The most recent item comes off first.
 
   In Python, a list IS a stack:
@@ -77,14 +77,14 @@ DICT MAPPING vs ASCII MATH:
     matches[")"]  → "("    (what should be on top of stack)
 
 
-VARIABLE PLACEMENT — CRITICAL BUG TO AVOID:
+VARIABLE PLACEMENT - CRITICAL BUG TO AVOID:
 ----------------------------------------------
-  WRONG — stack resets every character:
+  WRONG - stack resets every character:
     for char in string:
         stack = []              # ← inside loop = reset every time!
         stack.append(char)
 
-  RIGHT — stack persists across all characters:
+  RIGHT - stack persists across all characters:
     stack = []                  # ← outside loop = accumulates
     for char in string:
         stack.append(char)
@@ -95,11 +95,11 @@ VARIABLE PLACEMENT — CRITICAL BUG TO AVOID:
 
 ONE-LINE RECALLS:
 ------------------
-  Stack:        "List as stack — append() pushes, pop() pops, [-1] peeks"
-  Algorithm:    "Push openers, on closer check top matches — pop if yes,
+  Stack:        "List as stack - append() pushes, pop() pops, [-1] peeks"
+  Algorithm:    "Push openers, on closer check top matches - pop if yes,
                  False if no. Empty stack at end = balanced."
-  Dict map:     "matches = {')':'(', ']':'[', '}':'{'} — don't use ASCII math"
-  Init outside: "Stack OUTSIDE the loop — inside means reset every iteration"
+  Dict map:     "matches = {')':'(', ']':'[', '}':'{'} - don't use ASCII math"
+  Init outside: "Stack OUTSIDE the loop - inside means reset every iteration"
 
 =====================================================================
 """
@@ -193,7 +193,7 @@ if __name__ == "__main__":
         ("((()))",                                     True),
     ]
 
-    print("=== Balanced Brackets — Basic Check ===\n")
+    print("=== Balanced Brackets - Basic Check ===\n")
     all_passed = True
     for s, expected in test_cases:
         result = is_balanced(s)
@@ -220,5 +220,5 @@ if __name__ == "__main__":
         if result["valid"]:
             print(f"    Result: Valid")
         else:
-            print(f"    Result: Invalid — {result['error']}")
+            print(f"    Result: Invalid - {result['error']}")
         print()

@@ -1,9 +1,9 @@
 """
-JWT DECODER AND VALIDATOR — Token Security Analyzer
+JWT DECODER AND VALIDATOR - Token Security Analyzer
 Security Engineer Coding Practice Problem #18
 
 =====================================================================
-REFERENCE NOTES — JWT Structure, Base64url, Token Attacks, Sets
+REFERENCE NOTES - JWT Structure, Base64url, Token Attacks, Sets
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -26,7 +26,7 @@ JWT STRUCTURE:
   Payload: {"sub": "12345", "name": "User", "exp": 1893456000}
   Signature: HMAC-SHA256(header + "." + payload, secret_key)
 
-  CRITICAL: Payload is NOT encrypted — only signed.
+  CRITICAL: Payload is NOT encrypted - only signed.
   Anyone with the token can decode and read the payload.
   The signature only proves it wasn't tampered with.
 
@@ -49,23 +49,23 @@ BASE64URL vs BASE64:
 
 COMMON JWT ATTACKS TO CHECK FOR:
 -----------------------------------
-  1. alg: none — token is unsigned, server accepts it as valid
+  1. alg: none - token is unsigned, server accepts it as valid
      → Complete authentication bypass
 
-  2. Empty signature — related to alg:none, token has no integrity check
+  2. Empty signature - related to alg:none, token has no integrity check
      → Forged tokens accepted
 
-  3. Expired token — exp claim is in the past
+  3. Expired token - exp claim is in the past
      → If accepted, enables replay attacks with stolen tokens
 
-  4. No exp claim — token never expires
+  4. No exp claim - token never expires
      → Stolen token valid forever
 
-  5. Admin role in claims — may be legitimate or may be forged
+  5. Admin role in claims - may be legitimate or may be forged
      → Combined with alg:none = instant admin access
 
 
-SET OPERATIONS — WHY {} NOT []:
+SET OPERATIONS - WHY {} NOT []:
 ---------------------------------
   Sets support mathematical operations that lists don't:
 
@@ -86,8 +86,8 @@ SET OPERATIONS — WHY {} NOT []:
 ONE-LINE RECALLS:
 ------------------
   JWT decode:   "Split on dots, add base64 padding back, urlsafe_b64decode,
-                 json.loads — payload is readable by anyone"
-  Padding fix:  "'=' * (4 - len % 4) — JWT strips padding, add it back"
+                 json.loads - payload is readable by anyone"
+  Padding fix:  "'=' * (4 - len % 4) - JWT strips padding, add it back"
   Attacks:      "alg:none = unsigned, empty sig = forged, expired = replay,
                  no exp = forever valid"
   Sets:         "{} for set operations (subtraction, intersection),
@@ -124,7 +124,7 @@ def analyze_jwt(token):
     Decode and analyze a JWT for security issues.
 
     Checks for:
-      - alg: none (unsigned token — authentication bypass)
+      - alg: none (unsigned token - authentication bypass)
       - Missing or empty signature
       - Expired token (replay attack risk)
       - No expiration claim (token valid forever)
@@ -140,7 +140,7 @@ def analyze_jwt(token):
     parts = token.split(".")
 
     if len(parts) != 3:
-        return {"error": f"Invalid JWT — expected 3 parts, got {len(parts)}"}
+        return {"error": f"Invalid JWT - expected 3 parts, got {len(parts)}"}
 
     header_b64, payload_b64, signature = parts
 
@@ -152,12 +152,12 @@ def analyze_jwt(token):
 
     alerts = []
 
-    # Check 1: Algorithm set to "none" — unsigned token
+    # Check 1: Algorithm set to "none" - unsigned token
     if header.get("alg", "").lower() == "none":
         alerts.append({
             "severity": "CRITICAL",
-            "issue": "Algorithm set to 'none' — token is unsigned",
-            "risk": "Complete authentication bypass — attacker can forge any identity",
+            "issue": "Algorithm set to 'none' - token is unsigned",
+            "risk": "Complete authentication bypass - attacker can forge any identity",
         })
 
     # Check 2: Missing or empty signature
@@ -165,7 +165,7 @@ def analyze_jwt(token):
         alerts.append({
             "severity": "CRITICAL",
             "issue": "Signature is empty",
-            "risk": "Token integrity cannot be verified — may be forged",
+            "risk": "Token integrity cannot be verified - may be forged",
         })
 
     # Check 3: Token expiration
@@ -176,12 +176,12 @@ def analyze_jwt(token):
             alerts.append({
                 "severity": "HIGH",
                 "issue": f"Token expired at {expired_at}",
-                "risk": "Expired tokens should be rejected — if accepted, replay attacks possible",
+                "risk": "Expired tokens should be rejected - if accepted, replay attacks possible",
             })
     else:
         alerts.append({
             "severity": "MEDIUM",
-            "issue": "No expiration claim (exp) — token never expires",
+            "issue": "No expiration claim (exp) - token never expires",
             "risk": "Stolen token is valid forever",
         })
 
@@ -192,7 +192,7 @@ def analyze_jwt(token):
         alerts.append({
             "severity": "MEDIUM",
             "issue": f"Token has admin role for user '{user}'",
-            "risk": "Verify this is legitimate — combined with alg:none this is account takeover",
+            "risk": "Verify this is legitimate - combined with alg:none this is account takeover",
         })
 
     # Check 5: Missing recommended claims
@@ -212,7 +212,7 @@ def analyze_jwt(token):
     if alg in weak_algorithms:
         alerts.append({
             "severity": "LOW",
-            "issue": f"Algorithm '{alg}' — ensure HMAC secret is at least 256 bits",
+            "issue": f"Algorithm '{alg}' - ensure HMAC secret is at least 256 bits",
             "risk": "Weak secrets can be brute-forced offline with hashcat",
         })
 
@@ -248,21 +248,21 @@ if __name__ == "__main__":
         # Token 1: Normal valid token (expires in the future)
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsIm5hbWUiOiJTdWZ5YWFuIiwicm9sZSI6InVzZXIiLCJleHAiOjE4OTM0NTYwMDAsImlhdCI6MTcxMDAwMDAwMCwiaXNzIjoiYXV0aC5leGFtcGxlLmNvbSJ9.fake_signature",
 
-        # Token 2: alg:none attack — unsigned token with admin role
+        # Token 2: alg:none attack - unsigned token with admin role
         "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiI5OTk5OSIsIm5hbWUiOiJBdHRhY2tlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTg5MzQ1NjAwMH0.",
 
         # Token 3: Expired token
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Njc4OSIsIm5hbWUiOiJFeHBpcmVkVXNlciIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjAwMDAwMDAwLCJpYXQiOjE1OTkwMDAwMDB9.fake_signature",
 
-        # Token 4: Valid token but with admin role — needs verification
+        # Token 4: Valid token but with admin role - needs verification
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzg5MCIsIm5hbWUiOiJTbmVha3lBZG1pbiIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTg5MzQ1NjAwMCwiaWF0IjoxNzEwMDAwMDAwfQ.fake_signature",
     ]
 
     descriptions = [
         "Normal valid token",
-        "alg:none attack — unsigned with admin",
+        "alg:none attack - unsigned with admin",
         "Expired token",
-        "Admin role — needs verification",
+        "Admin role - needs verification",
     ]
 
     print("=== JWT Security Analyzer ===\n")
@@ -280,7 +280,7 @@ if __name__ == "__main__":
         print(f"  Subject:   {result['payload'].get('sub', 'N/A')}")
         print(f"  Name:      {result['payload'].get('name', 'N/A')}")
         print(f"  Role:      {result['payload'].get('role', 'N/A')}")
-        print(f"  Signed:    {'Yes' if result['has_signature'] else 'NO — UNSIGNED'}")
+        print(f"  Signed:    {'Yes' if result['has_signature'] else 'NO - UNSIGNED'}")
 
         exp = result["payload"].get("exp")
         if exp:
@@ -309,6 +309,6 @@ if __name__ == "__main__":
 
     # Expected:
     # Token 1: Low alerts only (missing iss claim, HS256 weak secret warning)
-    # Token 2: CRITICAL — alg:none + empty signature + admin role
-    # Token 3: HIGH — expired token
-    # Token 4: MEDIUM — admin role needs verification
+    # Token 2: CRITICAL - alg:none + empty signature + admin role
+    # Token 3: HIGH - expired token
+    # Token 4: MEDIUM - admin role needs verification

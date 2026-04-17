@@ -1,8 +1,8 @@
 """
-CAESAR CIPHER — Encrypt / Decrypt Tool
+CAESAR CIPHER - Encrypt / Decrypt Tool
 
 =====================================================================
-REFERENCE NOTES — ord/chr, ASCII, Modular Arithmetic, String Methods
+REFERENCE NOTES - ord/chr, ASCII, Modular Arithmetic, String Methods
 =====================================================================
 
 WHY THIS MATTERS FOR SE INTERVIEWS:
@@ -17,7 +17,7 @@ WHY THIS MATTERS FOR SE INTERVIEWS:
     the mechanics used in real encryption
 
 
-ord() AND chr() — CHARACTER ↔ NUMBER CONVERSION:
+ord() AND chr() - CHARACTER ↔ NUMBER CONVERSION:
 ---------------------------------------------------
   ord('A')  → 65     converts character to ASCII number
   chr(65)   → 'A'    converts ASCII number back to character
@@ -26,7 +26,7 @@ ord() AND chr() — CHARACTER ↔ NUMBER CONVERSION:
     A=65  B=66  C=67  ... X=88  Y=89  Z=90
     a=97  b=98  c=99  ... x=120 y=121 z=122
 
-  After Z (90), ASCII has [=91 \=92 ]=93 — NOT letters!
+  After Z (90), ASCII has [=91 \=92 ]=93 - NOT letters!
   This is why you can't just do chr(ord(char) + shift).
 
 
@@ -64,7 +64,7 @@ THE FORMULA STEP BY STEP:
   Y shifted by 3 wraps around to B. Correct!
 
 
-MODULO (%) — THE WRAP-AROUND OPERATOR:
+MODULO (%) - THE WRAP-AROUND OPERATOR:
 ----------------------------------------
   % gives the remainder after division.
 
@@ -91,14 +91,14 @@ DECRYPT = ENCRYPT WITH NEGATIVE SHIFT:
 -----------------------------------------
   Shifting forward by 3 to encrypt → shift backward by 3 to decrypt.
   encrypt(text, -shift) does the decryption.
-  No need for separate decrypt logic — elegant and less code to debug.
+  No need for separate decrypt logic - elegant and less code to debug.
 
 
 ONE-LINE RECALLS:
 ------------------
   Formula:    "Normalize to 0-25, shift, modulo 26 to wrap, add base back"
-  Why not direct: "ASCII has junk after Z — modulo only works in 0-25 range"
-  ord/chr:    "ord() char→number, chr() number→char — A=65, a=97"
+  Why not direct: "ASCII has junk after Z - modulo only works in 0-25 range"
+  ord/chr:    "ord() char→number, chr() number→char - A=65, a=97"
   Modulo:     "% 26 wraps any number back into 0-25 range"
   Decrypt:    "Decrypt is just encrypt with negative shift"
 
@@ -125,7 +125,7 @@ def encrypt(text, shift):
 
 
 def decrypt(text, shift):
-    """Decrypt Caesar cipher — just encrypt with negative shift."""
+    """Decrypt Caesar cipher - just encrypt with negative shift."""
     return encrypt(text, -shift)
 
 

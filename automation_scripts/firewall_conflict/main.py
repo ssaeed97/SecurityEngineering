@@ -1,14 +1,14 @@
 """
-FIREWALL RULE CONFLICT DETECTOR — CSV Rule Analysis
+FIREWALL RULE CONFLICT DETECTOR - CSV Rule Analysis
 
 =====================================================================
-REFERENCE NOTES — CSV Parsing, Tuple Keys, Conflict Detection
+REFERENCE NOTES - CSV Parsing, Tuple Keys, Conflict Detection
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
 -------------------------------
   - Firewall misconfigurations are a top cause of security incidents
-  - Conflicting rules create ambiguity — traffic may be allowed when
+  - Conflicting rules create ambiguity - traffic may be allowed when
     it should be denied, or vice versa
   - Same analysis pattern applies to: IAM policy conflicts, security
     group rules in AWS, WAF rules, network ACLs, RBAC permissions
@@ -32,7 +32,7 @@ TYPES OF FIREWALL CONFLICTS:
     This MAY be intentional but is worth flagging for review.
 
   SHADOW RULES:
-    A broad DENY before a specific ALLOW "shadows" the ALLOW —
+    A broad DENY before a specific ALLOW "shadows" the ALLOW -
     the specific rule never fires because the broad rule catches first.
     Detection requires knowing rule evaluation order.
 
@@ -116,8 +116,8 @@ def detect_conflicts(rule_lines):
     that contain both ALLOW and DENY actions.
 
     Distinguishes between:
-      - Direct contradictions (same source, opposite actions — definitely a bug)
-      - Overlapping scope (broad vs specific source — may be intentional but risky)
+      - Direct contradictions (same source, opposite actions - definitely a bug)
+      - Overlapping scope (broad vs specific source - may be intentional but risky)
 
     Args:
         rule_lines: List of CSV strings including header
@@ -212,36 +212,36 @@ if __name__ == "__main__":
     firewall_rules = [
         "rule_id,direction,protocol,port,source,action",
 
-        # === Port 22 (SSH) — OVERLAPPING SCOPE ===
+        # === Port 22 (SSH) - OVERLAPPING SCOPE ===
         # Allow from internal, deny from everywhere
         # Intent is clear but order-dependent
         "1,inbound,TCP,22,10.0.0.0/8,ALLOW",
         "2,inbound,TCP,22,0.0.0.0/0,DENY",
 
-        # === Port 443 (HTTPS) — NO CONFLICT ===
+        # === Port 443 (HTTPS) - NO CONFLICT ===
         "3,inbound,TCP,443,0.0.0.0/0,ALLOW",
 
-        # === Port 80 (HTTP) — OVERLAPPING SCOPE ===
+        # === Port 80 (HTTP) - OVERLAPPING SCOPE ===
         # Allow from everywhere, deny from specific subnet
         "4,inbound,TCP,80,0.0.0.0/0,ALLOW",
         "5,inbound,TCP,80,192.168.1.0/24,DENY",
 
-        # === Port 443 outbound — NO CONFLICT ===
+        # === Port 443 outbound - NO CONFLICT ===
         "6,outbound,TCP,443,0.0.0.0/0,ALLOW",
 
-        # === Port 53 (DNS) — OVERLAPPING SCOPE ===
+        # === Port 53 (DNS) - OVERLAPPING SCOPE ===
         # Allow DNS from everywhere, deny from internal
         "7,inbound,UDP,53,0.0.0.0/0,ALLOW",
         "8,inbound,UDP,53,10.0.0.0/8,DENY",
 
-        # === Port 3389 (RDP) — NO CONFLICT (only DENY) ===
+        # === Port 3389 (RDP) - NO CONFLICT (only DENY) ===
         "9,inbound,TCP,3389,0.0.0.0/0,DENY",
 
-        # === Port 3306 (MySQL) — NO CONFLICT (only ALLOW) ===
+        # === Port 3306 (MySQL) - NO CONFLICT (only ALLOW) ===
         "10,inbound,TCP,3306,10.0.0.0/8,ALLOW",
 
-        # === Port 8080 — DIRECT CONTRADICTION ===
-        # Same source, same port, opposite actions — definitely a bug
+        # === Port 8080 - DIRECT CONTRADICTION ===
+        # Same source, same port, opposite actions - definitely a bug
         "11,inbound,TCP,8080,0.0.0.0/0,ALLOW",
         "12,inbound,TCP,8080,0.0.0.0/0,DENY",
     ]
@@ -259,7 +259,7 @@ if __name__ == "__main__":
                 print(f"    DIRECT CONTRADICTION:")
                 for dc in conflict["direct_contradictions"]:
                     print(f"      Rule {dc['allow_rule']} (ALLOW) vs Rule {dc['deny_rule']} (DENY)")
-                    print(f"      Same source: {dc['source']} — this is a bug")
+                    print(f"      Same source: {dc['source']} - this is a bug")
 
             if conflict["overlapping_scope"]:
                 print(f"    OVERLAPPING SCOPE:")
@@ -279,13 +279,13 @@ if __name__ == "__main__":
     print(f"  Ports open to internet: {len(audit['open_to_internet'])}")
 
     if audit["dangerous_ports_exposed"]:
-        print(f"\n  WARNING — Dangerous ports open to 0.0.0.0/0:")
+        print(f"\n  WARNING - Dangerous ports open to 0.0.0.0/0:")
         for r in audit["dangerous_ports_exposed"]:
             print(f"    Rule {r['rule_id']}: {r['protocol']}/{r['port']} ({r['action']})")
 
     # Expected output:
-    # CRITICAL: TCP/8080 — direct contradiction (rules 11 vs 12, same source)
-    # MEDIUM: TCP/22 — overlapping scope (rules 1 vs 2)
-    # MEDIUM: TCP/80 — overlapping scope (rules 4 vs 5)
-    # MEDIUM: UDP/53 — overlapping scope (rules 7 vs 8)
+    # CRITICAL: TCP/8080 - direct contradiction (rules 11 vs 12, same source)
+    # MEDIUM: TCP/22 - overlapping scope (rules 1 vs 2)
+    # MEDIUM: TCP/80 - overlapping scope (rules 4 vs 5)
+    # MEDIUM: UDP/53 - overlapping scope (rules 7 vs 8)
     # No dangerous ports exposed to internet (SSH is ALLOW from internal only)

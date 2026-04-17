@@ -1,8 +1,8 @@
 """
-BINARY SEARCH for NEAREST ELEMENT — Find Target or Nearest Number
+BINARY SEARCH for NEAREST ELEMENT - Find Target or Nearest Number
 
 =====================================================================
-REFERENCE NOTES — Binary Search, Sorted Lists, O(log n) Efficiency
+REFERENCE NOTES - Binary Search, Sorted Lists, O(log n) Efficiency
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -42,7 +42,7 @@ HOW BINARY SEARCH WORKS:
     Compare distances to both to find the nearest.
 
 
-EDGE CASES — WHEN POINTERS GO OUT OF BOUNDS:
+EDGE CASES - WHEN POINTERS GO OUT OF BOUNDS:
 -----------------------------------------------
   Case 1: target smaller than all elements
     right goes to -1 (past the beginning)
@@ -69,7 +69,7 @@ EDGE CASES — WHEN POINTERS GO OUT OF BOUNDS:
     → Compare distances: target - numbers[right] vs numbers[left] - target
 
 
-THE // OPERATOR — INTEGER DIVISION:
+THE // OPERATOR - INTEGER DIVISION:
 --------------------------------------
   Regular division:  7 / 2  = 3.5
   Integer division:  7 // 2 = 3   (floors the result)
@@ -80,11 +80,11 @@ THE // OPERATOR — INTEGER DIVISION:
 
 ONE-LINE RECALLS:
 ------------------
-  Binary search:  "Cut in half each step — O(log n). Left and right converge."
+  Binary search:  "Cut in half each step - O(log n). Left and right converge."
   After loop:     "right = floor (largest smaller), left = ceiling (smallest larger)"
   Edge cases:     "right < 0 means below everything, left >= len means above everything"
   When to use:    "Only on sorted data. If unsorted, sort first or use linear."
-  // operator:    "Integer division — floors the result, needed for array indices"
+  // operator:    "Integer division - floors the result, needed for array indices"
 
 =====================================================================
 """
@@ -125,7 +125,7 @@ def find_nearest(numbers, target):
 
 def find_nearest_linear(numbers, target):
     """
-    Linear search alternative — O(n), works on unsorted lists too.
+    Linear search alternative - O(n), works on unsorted lists too.
     Included for comparison with binary search approach.
     """
     if target in numbers:
@@ -154,7 +154,7 @@ if __name__ == "__main__":
         (40, "Above all elements"),
         (1,  "First element exact"),
         (35, "Last element exact"),
-        (4,  "Equidistant — returns lower"),
+        (4,  "Equidistant - returns lower"),
     ]
 
     print(f"List: {numbers}\n")

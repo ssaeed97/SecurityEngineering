@@ -1,8 +1,8 @@
 """
-MERGE OVERLAPPING INTERVALS — Sort and Merge Pattern
+MERGE OVERLAPPING INTERVALS - Sort and Merge Pattern
 
 =====================================================================
-REFERENCE NOTES — Sorting, Lambda, Merge Pattern, Overlap Detection
+REFERENCE NOTES - Sorting, Lambda, Merge Pattern, Overlap Detection
 =====================================================================
 
 WHY THIS MATTERS FOR SE WORK:
@@ -14,7 +14,7 @@ WHY THIS MATTERS FOR SE WORK:
   - Same pattern applies anywhere you need to consolidate ranges
 
 
-THE ALGORITHM — SORT THEN MERGE:
+THE ALGORITHM - SORT THEN MERGE:
 -----------------------------------
   1. Sort intervals by start time
      → Guarantees overlapping intervals are adjacent
@@ -49,7 +49,7 @@ THE OVERLAP CHECK:
     [1,3] [5,7]   → 5 <= 3? NO → no overlap
 
 
-LAMBDA — INLINE FUNCTIONS:
+LAMBDA - INLINE FUNCTIONS:
 -----------------------------
   lambda x: x[0]   means   "take x, return x[0]"
 
@@ -67,10 +67,10 @@ LAMBDA — INLINE FUNCTIONS:
 
 ONE-LINE RECALLS:
 ------------------
-  Algorithm:  "Sort by start, walk through — if next start <= current end,
+  Algorithm:  "Sort by start, walk through - if next start <= current end,
                merge with max of both ends"
-  Why sort:   "After sorting, overlaps are adjacent — one comparison per pair"
-  Lambda:     "lambda x: x[0] in sort key= — controls what to sort by"
+  Why sort:   "After sorting, overlaps are adjacent - one comparison per pair"
+  Lambda:     "lambda x: x[0] in sort key= - controls what to sort by"
   Complexity: "O(n log n) for the sort, O(n) for the merge"
 
 =====================================================================
@@ -90,7 +90,7 @@ def merge_intervals(intervals):
     if not intervals:
         return []
 
-    # Sort by start time — guarantees overlaps are adjacent
+    # Sort by start time - guarantees overlaps are adjacent
     intervals.sort(key=lambda x: x[0])
 
     merged = [intervals[0]]
